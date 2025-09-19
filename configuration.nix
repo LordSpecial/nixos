@@ -19,6 +19,9 @@
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = false;
 
+  # Enable Flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
