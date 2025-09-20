@@ -10,6 +10,9 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
@@ -19,6 +22,7 @@
         modules = [
           ./hosts/workLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
+          inputs.nix-flatpak.nixosModules.nix-flatpak
         ];
       };
       personalLaptop = nixpkgs.lib.nixosSystem {
@@ -26,6 +30,7 @@
         modules = [
           ./hosts/personalLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
+          inputs.nix-flatpak.nixosModules.nix-flatpak
         ];
       };
     };

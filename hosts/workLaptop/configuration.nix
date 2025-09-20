@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.nix-flatpak.nixosModules.nix-flatpak
     ];
 
   # Bootloader.
@@ -108,9 +109,6 @@
     users.simon = import ./home.nix;
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -124,6 +122,12 @@
     vscodium
     discord
     gnumake
+  ];
+  
+  #Enable Flatpaks
+  services.flatpak.enable = true;
+  services.flatpak.packages = [
+  "io.github.zen_browser.zen"
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
