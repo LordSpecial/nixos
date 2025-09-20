@@ -19,6 +19,7 @@
   # environment.
   home.packages = [
     pkgs.kitty
+    pkgs.git-credential-manager  # Added for secure Git credential management
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -36,6 +37,18 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  # Git configuration with credential manager
+  programs.git = {
+    enable = true;
+    userName = "Simon";
+    userEmail = "simon@aquila.earth";
+    
+    extraConfig = {
+      credential.helper = "manager";
+      credential.credentialStore = "secretservice";  # Uses system keyring on Linux
+    };
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
