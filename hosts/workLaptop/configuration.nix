@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
+      inputs.home-manager.nixosModules.home-manager
     ];
 
   # Bootloader.
@@ -60,6 +60,10 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  # Add hyprland Environment
+  programs.hyprland.enable = true;
+  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
 
   # Configure keymap in X11
   services.xserver.xkb = {
