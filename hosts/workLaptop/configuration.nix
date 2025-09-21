@@ -2,19 +2,24 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, zen-browser, ... }:
+{
+  pkgs,
+  inputs,
+  zen-browser,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
 
     # Graphics Stuff
     ../../modules/system/intel-gpu.nix
-    ../../modules/system/nvidia-gpu.nix  
+    ../../modules/system/nvidia-gpu.nix
     ../../modules/system/hybrid-nv-in-gpu.nix
-    ];
+  ];
 
   # Bootloader.
   boot.loader.grub = {
@@ -32,7 +37,10 @@
   boot.loader.efi.canTouchEfiVariables = false;
 
   # Enable Flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -83,9 +91,9 @@
   system.hybrid.enable = true;
 
   hardware.graphics = {
-  enable = true;
-  enable32Bit = true;
-};
+    enable = true;
+    enable32Bit = true;
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -116,21 +124,21 @@
   users.users.simon = {
     isNormalUser = true;
     description = "Simon A";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
+    extraGroups = [
+      "networkmanager"
+      "wheel"
     ];
   };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    backupFileExtension = "backup";  
+    backupFileExtension = "backup";
     users.simon = import ./home.nix;
     # Allow unfree
     useGlobalPkgs = true;
     useUserPackages = true;
   };
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -146,14 +154,14 @@
     gnumake
     firefox
     xdg-utils
-    polkit_gnome  # This is missing and critical!
-    pciutils      # For GPU detection
-    glxinfo       # For OpenGL testing
-    vulkan-tools  # For Vulkan support
+    polkit_gnome # This is missing and critical!
+    pciutils # For GPU detection
+    glxinfo # For OpenGL testing
+    vulkan-tools # For Vulkan support
     brightnessctl
     zen-browser.packages.${pkgs.system}.default
   ];
-  
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [

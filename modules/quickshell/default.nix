@@ -1,4 +1,7 @@
-{ config, inputs, pkgs, lib, system, ... }:
+{
+  pkgs,
+  ...
+}:
 {
   home.packages = with pkgs; [
     qt6.qtimageformats

@@ -16,25 +16,33 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs: {
-    nixosConfigurations = {
-      workLaptop = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          zen-browser = zen-browser;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      zen-browser,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations = {
+        workLaptop = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            zen-browser = zen-browser;
+          };
+          modules = [
+            ./hosts/workLaptop/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+          ];
         };
-        modules = [
-          ./hosts/workLaptop/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
-        ];
-      };
-      personalLaptop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/personalLaptop/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
-        ];
+        personalLaptop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/personalLaptop/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+          ];
+        };
       };
     };
-  };
 }

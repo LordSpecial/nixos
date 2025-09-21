@@ -1,6 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 with lib;
-let cfg = config.system.nvidia; in
+let
+  cfg = config.system.nvidia;
+in
 {
   options.system.nvidia = {
     enable = mkEnableOption "NVIDIA graphics";
@@ -17,7 +23,7 @@ let cfg = config.system.nvidia; in
       default = "PCI:1:0:0";
     };
   };
-  
+
   config = mkIf cfg.enable {
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia = {

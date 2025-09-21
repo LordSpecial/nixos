@@ -1,6 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.system.intel; in
+let
+  cfg = config.system.intel;
+in
 {
   options.system.intel = {
     enable = mkEnableOption "Intel graphics";
@@ -10,7 +17,7 @@ let cfg = config.system.intel; in
       description = "Use intel-media-driver for newer GPUs";
     };
   };
-  
+
   config = mkIf cfg.enable {
     hardware.graphics.extraPackages = with pkgs; [
       (if cfg.useNewDriver then intel-media-driver else intel-vaapi-driver)

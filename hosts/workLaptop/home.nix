@@ -1,4 +1,7 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -19,13 +22,13 @@
   # environment.
   home.packages = with pkgs; [
     kitty
-    git-credential-manager  # Added for secure Git credential management
+    git-credential-manager # Added for secure Git credential management
     claude-code
-    
+
     # Hyprland ecosystem packages
-    fuzzel          # App launcher
-    dunst         # Notifications
-    swww          # Wallpaper manager
+    fuzzel # App launcher
+    dunst # Notifications
+    swww # Wallpaper manager
     nwg-displays
     quickshell
 
@@ -62,10 +65,10 @@
     enable = true;
     userName = "Simon";
     userEmail = "simon@aquila.earth";
-    
+
     extraConfig = {
       credential.helper = "manager";
-      credential.credentialStore = "secretservice";  # Uses system keyring on Linux
+      credential.credentialStore = "secretservice"; # Uses system keyring on Linux
     };
   };
 
@@ -83,8 +86,6 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-
-
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -115,19 +116,18 @@
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
-    
+
     # Firefox/Zen browser Wayland fixes
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_WEBRENDER = "1";
     MOZ_ACCELERATED = "1";
-    
+
     # General Wayland app support
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
 
-
-    LIBVA_DRIVER_NAME = "iHD";  # For Intel hardware acceleration
+    LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
 
     # For NVIDIA offloading (when using offload mode)
     __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";

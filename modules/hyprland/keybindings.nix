@@ -1,4 +1,6 @@
-{ config, pkgs, lib, ... }:
+{
+  ...
+}:
 {
   wayland.windowManager.hyprland.settings = {
     bind = [
@@ -10,7 +12,7 @@
       "SUPER, Return, exec, kitty"
       "SUPER, E, exec, nautilus"
       "SUPER, V, togglefloating"
-      
+
       # Window Management
       "SUPER, semicolon, resizeactive, -40 0"
       "SUPER, apostrophe, resizeactive, 40 0"
@@ -27,21 +29,27 @@
       "SUPER_SHIFT, right, swapwindow, r"
       "SUPER_SHIFT, up, swapwindow, u"
       "SUPER_SHIFT, down, swapwindow, d"
-      
+
       # Shuft focus
       "SUPER, left, movefocus, l"
       "SUPER, right, movefocus, r"
       "SUPER, up, movefocus, u"
       "SUPER, down, movefocus, d"
-    ] ++ (
+    ]
+    ++ (
       # Workspace bindings
-      builtins.concatLists (builtins.genList (i:
-        let ws = i + 1;
-        in [
-          "SUPER, code:1${toString i}, workspace, ${toString ws}"
-          "SUPER SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-        ]
-      ) 9)
+      builtins.concatLists (
+        builtins.genList (
+          i:
+          let
+            ws = i + 1;
+          in
+          [
+            "SUPER, code:1${toString i}, workspace, ${toString ws}"
+            "SUPER SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+          ]
+        ) 9
+      )
     );
 
     bindm = [
