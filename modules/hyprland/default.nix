@@ -88,6 +88,12 @@
         layout = "dwindle";
         allow_tearing = false;
       };
+
+      input = {
+        touchpad = {
+          natural_scroll = true;
+        };
+      };
       
       gesture = [
         "3, horizontal, workspace"
