@@ -14,9 +14,15 @@
 
   # Bootloader.
   boot.loader.grub = {
-    enable = true;
     device = "/dev/nvme0n1";
     useOSProber = false;
+    extraEntries = ''
+      menuentry "Arch Linux (Fixed)" {
+        set root='hd0,msdos1'
+        linux /vmlinuz-linux root=/dev/nvme0n1p3 rw
+        initrd /initramfs-linux.img
+      }
+    '';
   };
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = false;
