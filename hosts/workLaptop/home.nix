@@ -54,6 +54,7 @@
     # Hyprland Config
     ../../modules/hyprland
     ../../modules/quickshell
+    ../../modules/applications/vscodium.nix
   ];
 
   # Git configuration with credential manager
