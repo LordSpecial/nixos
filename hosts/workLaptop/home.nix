@@ -20,17 +20,18 @@
   home.packages = with pkgs; [
     kitty
     git-credential-manager  # Added for secure Git credential management
+    claude-code
     
     # Hyprland ecosystem packages
     fuzzel          # App launcher
     dunst         # Notifications
     swww          # Wallpaper manager
     nwg-displays
+    quickshell
 
     # Graphics Tools
     nvtopPackages.full
 
-    
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -52,6 +53,7 @@
   imports = [
     # Hyprland Config
     ../../modules/hyprland
+    ../../modules/quickshell
   ];
 
   # Git configuration with credential manager
@@ -80,6 +82,8 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
+
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
