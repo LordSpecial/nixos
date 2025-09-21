@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,9 +17,20 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    pkgs.kitty
-    pkgs.git-credential-manager  # Added for secure Git credential management
+  home.packages = with pkgs; [
+    kitty
+    git-credential-manager  # Added for secure Git credential management
+    
+    # Hyprland ecosystem packages
+    fuzzel          # App launcher
+    dunst         # Notifications
+    swww          # Wallpaper manager
+    nwg-displays
+
+    # Graphics Tools
+    nvtopPackages.full
+
+    
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -36,6 +47,11 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+  ];
+
+  imports = [
+    # Hyprland Config
+    ../../modules/hyprland
   ];
 
   # Git configuration with credential manager
@@ -82,7 +98,30 @@
   #  /etc/profiles/per-user/simon/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    # Wayland fixes for Flatpak
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    
+    # Firefox/Zen browser Wayland fixes
+    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_WEBRENDER = "1";
+    MOZ_ACCELERATED = "1";
+    
+    # General Wayland app support
+    NIXOS_OZONE_WL = "1";
+    QT_QPA_PLATFORM = "wayland";
+    GDK_BACKEND = "wayland";
+    
+    # Flatpak Wayland socket access
+    FLATPAK_ENABLE_SDK_EXT = "*";
+
+
+    LIBVA_DRIVER_NAME = "iHD";  # For Intel hardware acceleration
+
+    # For NVIDIA offloading (when using offload mode)
+    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 
   # Let Home Manager install and manage itself.

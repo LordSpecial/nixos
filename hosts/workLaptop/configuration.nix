@@ -10,6 +10,11 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
       inputs.nix-flatpak.nixosModules.nix-flatpak
+
+    # Graphics Stuff
+    ../../modules/system/intel-gpu.nix
+    ../../modules/system/nvidia-gpu.nix  
+    ../../modules/system/hybrid-nv-in-gpu.nix
     ];
 
   # Bootloader.
@@ -61,12 +66,9 @@
     LC_TIME = "en_AU.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Add hyprland Environment
   programs.hyprland.enable = true;
@@ -77,6 +79,14 @@
     layout = "au";
     variant = "";
   };
+
+  # Configure Graphics
+  system.hybrid.enable = true;
+
+  hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -112,9 +122,13 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "backup";  
     users.simon = import ./home.nix;
+    # Allow unfree
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
-
+  
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -128,13 +142,29 @@
     vscodium
     discord
     gnumake
+    firefox
+    xdg-utils
+    polkit_gnome  # This is missing and critical!
+    pciutils      # For GPU detection
+    glxinfo       # For OpenGL testing
+    vulkan-tools  # For Vulkan support
+    brightnessctl
   ];
   
   #Enable Flatpaks
   services.flatpak.enable = true;
   services.flatpak.packages = [
-  "io.github.zen_browser.zen"
+    "io.github.zen_browser.zen"
   ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+    # Let the system auto-configure portals
+    xdgOpenUsePortal = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
