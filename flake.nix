@@ -11,18 +11,21 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    zen-browser.url = "github:youwen5/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs: {
     nixosConfigurations = {
       workLaptop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          zen-browser = zen-browser;
+        };
         modules = [
           ./hosts/workLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
-          inputs.nix-flatpak.nixosModules.nix-flatpak
         ];
       };
       personalLaptop = nixpkgs.lib.nixosSystem {
@@ -30,7 +33,6 @@
         modules = [
           ./hosts/personalLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
-          inputs.nix-flatpak.nixosModules.nix-flatpak
         ];
       };
     };

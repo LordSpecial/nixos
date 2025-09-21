@@ -106,23 +106,7 @@
     x11.enable = false;
   };
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "text/html" = "app.zen_browser.zen.desktop";
-      "x-scheme-handler/http" = "app.zen_browser.zen.desktop";
-      "x-scheme-handler/https" = "app.zen_browser.zen.desktop";
-      "x-scheme-handler/about" = "app.zen_browser.zen.desktop";
-      "x-scheme-handler/unknown" = "app.zen_browser.zen.desktop";
-    };
-  };
-
   home.sessionVariables = {
-    BROWSER = "app.zen_browser.zen";
-  };
-
-  home.sessionVariables = {
-    # Wayland fixes for Flatpak
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
@@ -136,9 +120,6 @@
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
-    
-    # Flatpak Wayland socket access
-    FLATPAK_ENABLE_SDK_EXT = "*";
 
 
     LIBVA_DRIVER_NAME = "iHD";  # For Intel hardware acceleration

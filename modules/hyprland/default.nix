@@ -16,7 +16,7 @@
         "SUPER, SUPER_L, exec, pkill fuzzel || fuzzel"
         # Add some essential bindings that might be missing
         "SUPER, Q, killactive"
-        "SUPER, W, exec, flatpak run app.zen_browser.zen"
+        "SUPER, W, exec, zen"
         "SUPER, Return, exec, kitty"
         "SUPER, M, exit"
         "SUPER, E, exec, nautilus"

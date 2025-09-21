@@ -2,14 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, zen-browser, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
-      inputs.nix-flatpak.nixosModules.nix-flatpak
 
     # Graphics Stuff
     ../../modules/system/intel-gpu.nix
@@ -152,21 +151,15 @@
     glxinfo       # For OpenGL testing
     vulkan-tools  # For Vulkan support
     brightnessctl
+    zen-browser.packages.${pkgs.system}.default
   ];
   
-  #Enable Flatpaks
-  services.flatpak.enable = true;
-  services.flatpak.packages = [
-    "io.github.zen_browser.zen"
-  ];
-
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
-    # Let the system auto-configure portals
-    xdgOpenUsePortal = true;
+    config.common.default = "gtk";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
