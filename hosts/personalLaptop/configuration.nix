@@ -23,18 +23,12 @@
 
   # Bootloader.
   boot.loader.grub = {
-    device = "/dev/nvme0n1";
-    useOSProber = false;
-    extraEntries = ''
-      menuentry "Arch Linux (Fixed)" {
-        set root='hd0,msdos1'
-        linux /vmlinuz-linux root=/dev/nvme0n1p3 rw
-        initrd /initramfs-linux.img
-      }
-    '';
+    efiSupport = true;
+    device = "nodev";
+    useOSProber = true;
   };
   boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = false;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Enable Flakes
   nix.settings.experimental-features = [
@@ -45,7 +39,7 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos-personal"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -88,7 +82,7 @@
   };
 
   # Configure Graphics
-  system.hybrid.enable = true;
+  system.intel.enable = true;
 
   hardware.graphics = {
     enable = true;

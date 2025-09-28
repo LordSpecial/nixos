@@ -37,7 +37,10 @@
           ];
         };
         personalLaptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { 
+            inherit inputs; 
+            zen-browser = zen-browser;
+          };
           modules = [
             ./hosts/personalLaptop/configuration.nix
             inputs.home-manager.nixosModules.home-manager

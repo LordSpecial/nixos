@@ -44,7 +44,7 @@
             name = "mayukaithemevsc";
             publisher = "gulajavaministudio";
             version = "3.2.4";
-            sha256 = "sha256-QgiBcfgcpruA73Mnc5LWwu3o1oN0+PVyHQIoV5hTnMI=";
+            sha256 = "sha256-V2hAxIVu2YWonwcIG+9n300b88jzPOnKYUFt1okSX4w=";
           }
           {
             name = "nix-ide";

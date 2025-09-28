@@ -1,5 +1,5 @@
+-include .env
 FLAKE = $(HOME)/.config/nixos
-HOST  = workLaptop
 
 .PHONY: switch boot build test update gc clean
 
