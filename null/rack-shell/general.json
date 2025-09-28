@@ -1,0 +1,34 @@
+{
+    "bar": {
+        "color": "#1e1e2e",
+        "margin": 4,
+        "radius": 10,
+        "width": 50,
+        "workspaceCount": 7
+    },
+    "child": {
+        "color": "#313244",
+        "margin": 5,
+        "radius": 10,
+        "spacing": 8
+    },
+    "widgets": {
+        "cpuNmem": {
+            "showCpuLabel": true,
+            "showMemLabel": true,
+            "spacing": 5
+        },
+        "launcher": {
+            "args": [],
+            "launcher": ""
+        },
+        "time": {
+            "use24hfmt": true
+        },
+        "weather": {
+            "interval_m": 10,
+            "latitude": 26.3358,
+            "longitude": 127.8014
+        }
+    }
+}

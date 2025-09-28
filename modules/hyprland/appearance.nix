@@ -3,7 +3,7 @@
 }:
 {
   wayland.windowManager.hyprland.settings = {
-    monitor = "eDP-1,2560x1600@240.0,0x0,1.0";
+    monitor = "eDP-1,1920x1080@60.0,0x0,1.0";
 
     general = {
       gaps_in = 5;

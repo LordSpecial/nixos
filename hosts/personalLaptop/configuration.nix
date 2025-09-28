@@ -25,7 +25,16 @@
   boot.loader.grub = {
     efiSupport = true;
     device = "nodev";
-    useOSProber = true;
+    useOSProber = false;
+    extraEntries = ''
+      menuentry "Windows 10" {
+        insmod part_gpt
+        insmod fat
+        insmod chain
+        set root='hd0,gpt1'
+        chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+      }
+    '';
   };
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
