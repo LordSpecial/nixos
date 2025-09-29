@@ -24,6 +24,7 @@
     kitty
     git-credential-manager # Added for secure Git credential management
     claude-code
+    gitkraken
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
@@ -58,6 +59,7 @@
     ../../modules/hyprland
     ../../modules/quickshell
     ../../modules/applications/vscodium.nix
+    ../../modules/applications/terminal.nix
   ];
 
   # Git configuration with credential manager
