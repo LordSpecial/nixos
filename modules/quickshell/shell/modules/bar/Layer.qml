@@ -26,7 +26,7 @@ Variants {
     Item {
       anchors.margins: Cfg.General.bar.margin
       // FIXME uncomment the bellow line, it looks ugly with my hyprconfig
-      // anchors.rightMargin: 0
+      anchors.rightMargin: 0
       anchors.fill: parent
       Rectangle {
         id: base
