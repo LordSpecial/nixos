@@ -77,6 +77,18 @@
             sha256 = "sha256-K5qwUbHrguwaxCVFDMTeRw3/QLNXRG/l1OanT3VEJs0=";
           }
           {
+            name = "qt-core";
+            publisher = "theqtcompany";
+            version = "1.8.0";
+            sha256 = "sha256-qgtDiSHHZ7k8H55W5Or01UxAW3UaQRVSuOpAj/l021I=";
+          }
+          {
+            name = "qt-qml";
+            publisher = "theqtcompany";
+            version = "1.8.0";
+            sha256 = "sha256-x8D1jbCpQsVkGGCvnNWfAbbA+8Sn8oPQ/St9HTq1PVg=";
+          }
+          {
             name = "claude-code";
             publisher = "anthropic";
             version = "1.0.118";
@@ -150,6 +162,9 @@
         # C/C++
         "C_Cpp.intelliSenseEngine" = "disabled"; # You had this disabled
         "C_Cpp.markdownInComments" = "enabled";
+
+        # QML
+        "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
 
         # Go
         "go.toolsManagement.autoUpdate" = true;
