@@ -14,6 +14,8 @@
     imagemagick
   ];
 
+  qt.enable = true;
+
   xdg.configFile."quickshell/".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nixos/modules/quickshell/shell";
 

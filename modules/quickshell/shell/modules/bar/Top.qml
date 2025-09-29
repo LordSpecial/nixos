@@ -11,8 +11,6 @@ Item {
     anchors.right: parent.right
     spacing: Cfg.General.child.spacing
 
-    Wid.Launcher {}
     Wid.CpuNMem {}
-    Wid.Weather {}
   }
 }
