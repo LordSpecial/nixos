@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   ...
 }:
 {
@@ -13,7 +14,8 @@
     imagemagick
   ];
 
-  xdg.configFile."quickshell/".source = ./shell;
+  xdg.configFile."quickshell/".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nixos/modules/quickshell/shell";
 
   # Auto-start QuickShell
   systemd.user.services.quickshell = {
