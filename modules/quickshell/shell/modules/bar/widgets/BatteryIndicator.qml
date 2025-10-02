@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import qs.components
 import qs.config as Cfg
 import qs.services
-import qs.modules.common.widgets
 
 Child {
     id: root

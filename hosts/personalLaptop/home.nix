@@ -61,6 +61,7 @@
     ../../modules/quickshell
     ../../modules/applications/vscodium.nix
     ../../modules/applications/terminal.nix
+    ../../modules/applications/fuzzel.nix
   ];
 
   # Git configuration with credential manager
