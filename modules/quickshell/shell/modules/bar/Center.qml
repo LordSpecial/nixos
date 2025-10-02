@@ -13,5 +13,9 @@ Item {
     spacing: Cfg.General.child.spacing
 
     Wid.Workspaces {}
+    Rectangle {
+      implicitHeight: 10
+    }
+    Wid.SpecialWorkspaces {}
   }
 }
