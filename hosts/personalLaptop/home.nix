@@ -25,6 +25,7 @@
     git-credential-manager # Added for secure Git credential management
     claude-code
     gitkraken
+    spotify
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
