@@ -29,7 +29,7 @@ Singleton {
       id: adapter
       property JsonObject bar: JsonObject {
         id: bar
-        property int width: 50
+        property int width: 100
         property int radius: 10
         property int margin: 4
         property string color: Cfg.Colors.data.base
@@ -53,20 +53,8 @@ Singleton {
           property bool showMemLabel: false
         }
 
-        property JsonObject weather: JsonObject {
-          property real longitude: 127.8014
-          property real latitude: 26.3358
-          property int interval_m: 10
-        }
-
         property JsonObject time: JsonObject {
           property bool use24hfmt: true
-        }
-
-        property JsonObject launcher: JsonObject {
-          // applicaiton to launch when launcher widget is clicked
-          property string launcher: ""
-          property list<string> args: []
         }
       }
     }
