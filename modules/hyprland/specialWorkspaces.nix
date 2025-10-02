@@ -33,14 +33,28 @@
         "SUPER, M, togglespecialworkspace, spotify"
 
         # Toggle Slack scratchpad (SUPER + SHIFT + S)
-        "SUPER SHIFT, S, togglespecialworkspace, slack"
+        "SUPER, S, togglespecialworkspace, slack"
 
         # Toggle Discord scratchpad (SUPER + SHIFT + D)
-        "SUPER SHIFT, D, togglespecialworkspace, discord"
+        "SUPER, D, togglespecialworkspace, discord"
 
         # Close current special workspace (SUPER alone or ESC)
         "SUPER, SUPER_L, togglespecialworkspace,"
         ", escape, togglespecialworkspace,"
+
+        # Close special workspacesd
+        "SUPER, 1, togglespecialworkspace," # Closes any open special workspace
+        "SUPER, 2, togglespecialworkspace,"
+        "SUPER, 3, togglespecialworkspace,"
+        "SUPER, 4, togglespecialworkspace,"
+        "SUPER, 5, togglespecialworkspace,"
+        "SUPER, 6, togglespecialworkspace,"
+        "SUPER, 7, togglespecialworkspace,"
+        "SUPER, 8, togglespecialworkspace,"
+        "SUPER, 9, togglespecialworkspace,"
+        "SUPER, 0, togglespecialworkspace,"
+        "SUPER_CTRL, right, togglespecialworkspace,"
+        "SUPER_CTRL, left, togglespecialworkspace,"
       ];
     };
   };

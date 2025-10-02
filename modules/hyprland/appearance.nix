@@ -28,6 +28,7 @@
 
     gesture = [
       "3, horizontal, workspace"
+      "3, down, special"
     ];
 
     misc = {
