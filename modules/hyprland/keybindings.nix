@@ -7,6 +7,7 @@
       # Bindings
       "SUPER, C, exec, codium"
       "SUPER, SUPER_L, exec, pkill fuzzel || fuzzel"
+      "SUPER CTRL SHIFT, R, exec, pkill quickshell && qs & disown"
       "SUPER, Q, killactive"
       "SUPER, W, exec, zen"
       "SUPER, Return, exec, kitty"
@@ -51,6 +52,10 @@
         ) 9
       )
     );
+
+    bindn = [
+      ", Escape, exec, pkill fuzzel"
+    ];
 
     bindm = [
       "SUPER, mouse:272, movewindow"

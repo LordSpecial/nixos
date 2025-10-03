@@ -1,7 +1,8 @@
 import QtQuick
-import qs.config as Cfg
+
+import qs.modules.common
 
 Rectangle {
-  color: Cfg.General.child.color
-  radius: Cfg.General.child.radius
+  color: Colour.surface0
+  radius: 8
 }

@@ -3,11 +3,12 @@ import Quickshell
 import Quickshell.Wayland
 
 import qs.data as Dat
-import qs.config as Cfg
+import qs.modules.common
 
 Variants {
   model: Quickshell.screens
   PanelWindow {
+    readonly property int anchorMargin: 4
     required property ShellScreen modelData
     screen: modelData
     anchors {
@@ -17,22 +18,21 @@ Variants {
     }
 
     color: "transparent"
-    implicitWidth: Cfg.General.bar.width
+    implicitWidth: 60
 
     WlrLayershell.namespace: `${Dat.Paths.shellName}.bar.quickshell`
     WlrLayershell.exclusionMode: ExclusionMode.Auto
     WlrLayershell.layer: WlrLayer.Top
 
     Item {
-      anchors.margins: Cfg.General.bar.margin
-      // FIXME uncomment the bellow line, it looks ugly with my hyprconfig
+      anchors.margins: anchorMargin
       anchors.rightMargin: 0
       anchors.fill: parent
       Rectangle {
         id: base
-        radius: Cfg.General.bar.radius
+        radius: 10
         anchors.fill: parent
-        color: Cfg.General.bar.color
+        color: Colour.base
       }
 
       Top {
@@ -40,21 +40,21 @@ Variants {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: middleContainer.top
-        anchors.margins: 4
+        anchors.margins: anchorMargin
       }
       Center {
         id: middleContainer
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: 4
+        anchors.margins: anchorMargin
       }
       Bottom {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: middleContainer.bottom
-        anchors.margins: 4
+        anchors.margins: anchorMargin
       }
     }
   }

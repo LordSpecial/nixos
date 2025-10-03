@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
 
-import qs.config as Cfg
+import qs.modules.common
 
 Repeater {
-  model: Cfg.General.bar.workspaceCount
+  model: 10
   delegate: Rectangle {
     required property int modelData
     readonly property bool specialActive: Hyprland.activeToplevel?.workspace.name - 1 == modelData
@@ -13,9 +13,9 @@ Repeater {
     readonly property bool urgent: Hyprland.toplevels.values.some(win =>
       win?.workspace?.id === modelData + 1 && win.urgent
     )
-    color:  urgent ? Cfg.Colors.data.red : specialActive ? Cfg.Colors.data.blue : Cfg.Colors.data.text
+    color:  urgent ? Colour.red : specialActive ? Colour.blue : Colour.text
     Layout.alignment: Qt.AlignHCenter
-    implicitWidth: 20
+    implicitWidth: 24
     implicitHeight: this.implicitWidth * (active ? 1.5 : 1)
     radius: this.implicitWidth
 

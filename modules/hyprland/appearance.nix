@@ -3,8 +3,6 @@
 }:
 {
   wayland.windowManager.hyprland.settings = {
-    monitor = "eDP-1,1920x1080@60.0,0x0,1.0";
-
     general = {
       gaps_in = 5;
       gaps_out = 10;
@@ -13,6 +11,10 @@
       "col.inactive_border" = "rgba(595959aa)";
       layout = "dwindle";
       allow_tearing = false;
+    };
+
+    dwindle = {
+      special_scale_factor = 0.6;
     };
 
     decoration = {

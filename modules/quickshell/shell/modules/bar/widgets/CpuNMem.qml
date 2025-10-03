@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.components as Cmp
-import qs.config as Cfg
+import qs.modules.common
 import qs.data as Dat
 
 Child {
@@ -12,8 +12,8 @@ Child {
   component StyledProgress: Cmp.CircularProgress {
     rotation: -180
     size: 28
-    primaryColor: Cfg.Colors.data.lavender
-    secondaryColor: Cfg.Colors.data.mantle
+    primaryColor: Colour.lavender
+    secondaryColor: Colour.mantle
   }
 
   component Label: Item {
@@ -22,7 +22,7 @@ Child {
     implicitHeight: 10
     Cmp.StyledText {
       anchors.centerIn: parent
-      color: Cfg.Colors.data.text
+      color: Colour.text
       text: (parent.usage * 100).toFixed(0) + "%"
       font.pointSize: 11
     }
@@ -30,7 +30,7 @@ Child {
 
   ColumnLayout {
     id: col
-    spacing: Cfg.General.widgets.cpuNmem.spacing
+    spacing: 8
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
@@ -41,7 +41,7 @@ Child {
     }
 
     Label {
-      visible: Cfg.General.widgets.cpuNmem.showCpuLabel
+      visible: true
       usage: Dat.Resources.cpuUsage
     }
 
@@ -49,11 +49,11 @@ Child {
       Layout.topMargin: 2
       Layout.alignment: Qt.AlignCenter
       value: Dat.Resources.memUsage
-      primaryColor: Cfg.Colors.data.blue
+      primaryColor: Colour.blue
     }
 
     Label {
-      visible: Cfg.General.widgets.cpuNmem.showMemLabel
+      visible: false
       usage: Dat.Resources.memUsage
     }
   }

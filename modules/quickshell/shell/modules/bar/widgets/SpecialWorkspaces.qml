@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
-import qs.config as Cfg
+import qs.modules.common
 
 ColumnLayout {
   spacing: 6
@@ -29,10 +29,10 @@ ColumnLayout {
     win?.workspace?.name === specialName
   )
 
-  color: urgent ? Cfg.Colors.data.red : active ? Cfg.Colors.data.blue : (hasWindows ? Cfg.Colors.data.text : Cfg.Colors.data.surface0)
+  color: urgent ? Colour.red : active ? Colour.blue : (hasWindows ? Colour.text : Colour.surface0)
   Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-  implicitWidth: 22   // Larger to accommodate text
-  implicitHeight: 22  // Square shape
+  implicitWidth: 24   // Larger to accommodate text
+  implicitHeight: 24  // Square shape
   radius: 8       // Slight rounding
 
   Behavior on color {
@@ -49,8 +49,8 @@ ColumnLayout {
   Text {
     anchors.centerIn: parent
     text: parent.modelData.label
-    color: Cfg.Colors.data.base  // White/light text on colored background
-    font.pixelSize: 18
+    color: Colour.base  // White/light text on colored background
+    font.pixelSize: 21
     font.bold: true
     font.family: "NotoSans Nerd Font Mono"  // Change to "Symbols Nerd Font" or your preferred Nerd Font
   }

@@ -24,6 +24,8 @@
     kitty
     git-credential-manager # Added for secure Git credential management
     claude-code
+    gitkraken
+    spotify
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
@@ -33,17 +35,18 @@
     quickshell
 
     # Graphics Tools
-    nvtopPackages.full
+    #nvtopPackages.full
 
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    # Fonts
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    nerd-fonts.noto
+    nerd-fonts.jetbrains-mono
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -59,6 +62,7 @@
     ../../modules/quickshell
     ../../modules/applications/vscodium.nix
     ../../modules/applications/terminal.nix
+    ../../modules/applications/fuzzel.nix
   ];
 
   # Git configuration with credential manager

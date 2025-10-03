@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.components
-import qs.config as Cfg
+import qs.modules.common
 import qs.services
 
 Child {
@@ -16,10 +16,10 @@ Child {
     readonly property real percentSizeRatio: 0.5
 
     readonly property color iconColour: {
-        if (Battery.isCharging) return Cfg.Colors.data.green
-        if (Battery.isCritical) return Cfg.Colors.data.red
-        if (Battery.isLow) return Cfg.Colors.data.yellow
-        return Cfg.Colors.data.lavender
+        if (Battery.isCharging) return Colour.green
+        if (Battery.isCritical) return Colour.red
+        if (Battery.isLow) return Colour.yellow
+        return Colour.lavender
     }
 
     Behavior on implicitHeight {

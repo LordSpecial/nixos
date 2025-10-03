@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 
-import qs.config as Cfg
+import qs.modules.common
 import qs.modules.bar.widgets as Wid
 
 Item {
@@ -9,7 +9,7 @@ Item {
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-    spacing: Cfg.General.child.spacing
+    spacing: 8
 
     Wid.CpuNMem {}
   }
