@@ -59,6 +59,7 @@
   imports = [
     # Hyprland Config
     ../../modules/hyprland
+    ../../modules/hyprland/personalSpecifics.nix
     ../../modules/quickshell
     ../../modules/applications/vscodium.nix
     ../../modules/applications/terminal.nix
