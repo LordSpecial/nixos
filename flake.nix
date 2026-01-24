@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,35 +22,30 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      zen-browser,
-      ...
-    }@inputs:
-    {
-      nixosConfigurations = {
-        workLaptop = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            zen-browser = zen-browser;
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+
+      imports = [
+        ./hosts
+        ./lib
+        ./modules
+      ];
+
+      perSystem =
+        {
+          config,
+          pkgs,
+          ...
+        }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pkgs.git
+              pkgs.nixos-rebuild
+            ];
+            name = "nixos-config";
           };
-          modules = [
-            ./hosts/workLaptop/configuration.nix
-            inputs.home-manager.nixosModules.home-manager
-          ];
         };
-        personalLaptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { 
-            inherit inputs; 
-            zen-browser = zen-browser;
-          };
-          modules = [
-            ./hosts/personalLaptop/configuration.nix
-            inputs.home-manager.nixosModules.home-manager
-          ];
-        };
-      };
     };
 }
