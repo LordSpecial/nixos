@@ -29,7 +29,9 @@
   };
 
   # Desktop Environment
-  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = false;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.gnome.enable = true;
 
   # Hyprland

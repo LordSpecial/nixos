@@ -8,7 +8,6 @@
     ../default.nix
     # Hyprland Config
     ../../system/programs/hyprland
-    ../../modules/quickshell
     ../../system/programs/vscodium.nix
   ];
 

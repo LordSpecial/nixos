@@ -20,6 +20,23 @@
     # Hyprland - pinned to avoid breaking changes
     hyprland.url = "github:hyprwm/Hyprland";
 
+    # Noctalia shell
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Stylix theming
+    stylix = {
+      url = "github:danth/stylix/release-25.11";
+    };
+
+    # Wallpapers (flake = false)
+    wallpapers = {
+      url = "github:LordSpecial/wallpapers";
+      flake = false;
+    };
+
     # Zen browser
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
