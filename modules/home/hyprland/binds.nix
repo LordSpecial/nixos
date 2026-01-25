@@ -2,57 +2,62 @@
   host,
   inputs,
   ...
-}: let
+}:
+let
   vars = import ../../../hosts/${host}/variables.nix { inherit inputs; };
-  inherit
-    (vars)
+  inherit (vars)
     barChoice
     terminal
     ;
   # Noctalia-specific bindings (only included when barChoice == "noctalia")
   noctaliaBind =
-    if barChoice == "noctalia"
-    then [
-      "$modifier,D, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
-      "$modifier SHIFT,Return, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
-      "$modifier,M, Noctalia Notifications, exec, noctalia-shell ipc call notifications toggleHistory"
-      "$modifier,V, Noctalia Clipboard, exec,  noctalia-shell ipc call launcher clipboard"
-      "$modifier ALT,P, Noctalia Settings, exec, noctalia-shell ipc call settings toggle"
-      "$modifier SHIFT,comma, Noctalia Settings, exec,  noctalia-shell ipc call settings toggle"
-      "$modifier ALT,L, Noctalia Lock Screen, exec,  noctalia-shell ipc call sessionMenu lockAndSuspend"
-      "$modifier SHIFT,W, Noctalia Wallpaper, exec,  noctalia-shell ipc call wallpaper toggle"
-      "$modifier,X, Noctalia Power Menu, exec,  noctalia-shell ipc call sessionMenu toggle"
-      "$modifier,C, Noctalia Control Center, exec,  noctalia-shell ipc call controlCenter toggle"
-      "$modifier CTRL,R, Noctalia Screen Recorder, exec,  noctalia-shell ipc call screenRecorder toggle"
-    ]
-    else [];
+    if barChoice == "noctalia" then
+      [
+        "$modifier,D, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
+        "$modifier SHIFT,Return, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
+        "$modifier,N, Noctalia Notifications, exec, noctalia-shell ipc call notifications toggleHistory"
+        "$modifier,V, Noctalia Clipboard, exec,  noctalia-shell ipc call launcher clipboard"
+        "$modifier ALT,P, Noctalia Settings, exec, noctalia-shell ipc call settings toggle"
+        "$modifier SHIFT,comma, Noctalia Settings, exec,  noctalia-shell ipc call settings toggle"
+        "$modifier ALT,L, Noctalia Lock Screen, exec,  noctalia-shell ipc call sessionMenu lockAndSuspend"
+        "$modifier SHIFT,W, Noctalia Wallpaper, exec,  noctalia-shell ipc call wallpaper toggle"
+        "$modifier,X, Noctalia Power Menu, exec,  noctalia-shell ipc call sessionMenu toggle"
+        "$modifier,C, Noctalia Control Center, exec,  noctalia-shell ipc call controlCenter toggle"
+        "$modifier CTRL,R, Noctalia Screen Recorder, exec,  noctalia-shell ipc call screenRecorder toggle"
+      ]
+    else
+      [ ];
   # Rofi launcher bindings (only included when barChoice != "noctalia")
   rofiBind =
-    if barChoice != "noctalia"
-    then [
-      "$modifier,D, Rofi Launcher, exec, rofi-launcher"
-      "$modifier SHIFT,Return, Rofi Launcher, exec, rofi-launcher"
-    ]
-    else [];
+    if barChoice != "noctalia" then
+      [
+        "$modifier,D, Rofi Launcher, exec, rofi-launcher"
+        "$modifier SHIFT,Return, Rofi Launcher, exec, rofi-launcher"
+      ]
+    else
+      [ ];
   # Overview/launcher on Super key release (only included based on barChoice)
   overviewBind =
-    if barChoice == "noctalia"
-    then [
-      "$modifier,Super_L, exec, noctalia-shell ipc call launcher toggle"
-      "$modifier,Super_R, exec, noctalia-shell ipc call launcher toggle"
-    ]
-    else [
-      "$modifier,Super_L, exec, rofi-launcher"
-      "$modifier,Super_R, exec, rofi-launcher"
-    ];
+    if barChoice == "noctalia" then
+      [
+        "$modifier,Super_L, exec, noctalia-shell ipc call launcher toggle"
+        "$modifier,Super_R, exec, noctalia-shell ipc call launcher toggle"
+      ]
+    else
+      [
+        "$modifier,Super_L, exec, rofi-launcher"
+        "$modifier,Super_R, exec, rofi-launcher"
+      ];
   # Rofi clipboard binding (only included when barChoice != "noctalia")
   rofiClipboardBind =
-    if barChoice != "noctalia"
-    then [
-      "$modifier,V, Clipboard History, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-    ]
-    else [];
-in {
+    if barChoice != "noctalia" then
+      [
+        "$modifier,V, Clipboard History, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+      ]
+    else
+      [ ];
+in
+{
   wayland.windowManager.hyprland.settings = {
     bindd =
       noctaliaBind
@@ -66,6 +71,7 @@ in {
         "$modifier SHIFT,D, Discord, exec, discord"
         "$modifier SHIFT,N, Notification Reset, exec, swaync-client -rs"
         "$modifier,W, Web Browser, exec, zen-browser"
+        "$modifier,M, Spotify, exec, spotify"
         "$modifier,Y, File Manager, exec, kitty -e yazi"
         "$modifier,S, Screenshot, exec, screenshootin"
         # ============= SCREENSHOTS =============

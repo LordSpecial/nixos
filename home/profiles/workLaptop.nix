@@ -18,6 +18,7 @@
   home.packages = with pkgs; [
     kitty
     git-credential-manager
+    spotify
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
