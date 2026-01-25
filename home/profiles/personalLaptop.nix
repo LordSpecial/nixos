@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 {
@@ -46,6 +47,12 @@
     x11.enable = false;
   };
 
+  wayland.windowManager.hyprland.settings.monitor = "eDP-1,preferred,auto,1.0";
+  wayland.windowManager.hyprland.settings.bindl = lib.mkAfter [
+    ",XF86MonBrightnessUp, exec, brightnessctl -d intel_backlight set +5%"
+    ",XF86MonBrightnessDown, exec, brightnessctl -d intel_backlight set 5%-"
+  ];
+
   home.sessionVariables = {
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
@@ -63,8 +70,5 @@
 
     LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
 
-    # For NVIDIA offloading (when using offload mode)
-    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 }
