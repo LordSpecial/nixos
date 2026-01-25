@@ -4,6 +4,10 @@
   ...
 }:
 {
+  imports = [
+    ./sddm.nix
+  ];
+
   # Enable Flakes
   nix.settings.experimental-features = [
     "nix-command"
