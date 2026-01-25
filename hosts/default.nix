@@ -8,6 +8,9 @@
     let
       inherit (inputs.nixpkgs.lib) nixosSystem;
 
+      # get the basic config to build on top of
+      inherit (import "${self}/system") laptop;
+
       # get these into the module system
       specialArgs = {
         inherit inputs self;
@@ -17,8 +20,8 @@
     {
       workLaptop = nixosSystem {
         inherit specialArgs;
-        modules = [
-          ./workLaptop/configuration.nix
+        modules = laptop ++ [
+          ./workLaptop
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -34,8 +37,8 @@
 
       personalLaptop = nixosSystem {
         inherit specialArgs;
-        modules = [
-          ./personalLaptop/configuration.nix
+        modules = laptop ++ [
+          ./personalLaptop
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
