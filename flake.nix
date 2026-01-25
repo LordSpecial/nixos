@@ -1,51 +1,49 @@
 {
-  description = "I'm trying to make a config flake";
+  description = "NixOS configuration for Aquila team";
 
   inputs = {
+    # Core system - always nixos-unstable for latest packages
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
+    # Flake framework
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    # Home management
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Hyprland - pinned to avoid breaking changes
     hyprland.url = "github:hyprwm/Hyprland";
 
-    zen-browser.url = "github:youwen5/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
-
+    # Zen browser
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    inputs:
+  outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
       imports = [
         ./hosts
         ./lib
-        ./modules
       ];
 
-      perSystem =
-        {
-          config,
-          pkgs,
-          ...
-        }:
-        {
-          devShells.default = pkgs.mkShell {
-            packages = [
-              pkgs.git
-              pkgs.nixos-rebuild
-            ];
-            name = "nixos-config";
-          };
+      perSystem = { pkgs, ... }: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            git
+            nixos-rebuild
+          ];
+          name = "nixos-config";
         };
+      };
     };
 }
