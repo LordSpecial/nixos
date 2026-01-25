@@ -4,6 +4,9 @@
   zen-browser,
   ...
 }:
+let
+  vars = import ./variables.nix { inherit inputs; };
+in
 {
   imports = [
     ./hardware-configuration.nix

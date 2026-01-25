@@ -105,7 +105,25 @@
     # AI Development Tools (latest versions via community flakes)
     claude-code  # Latest Claude Code
     codex        # Latest Codex CLI
+
+    # Hyprland + Noctalia essentials
+    cliphist
+    grim
+    hyprpicker
+    hyprpolkitagent
+    hyprshot
+    matugen
+    pyprland
+    swww
+    swappy
+    wl-clipboard
+    slurp
+    gpu-screen-recorder
   ];
+
+  # Power and battery services (Noctalia needs these)
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
 
   # XDG portal
   xdg.portal = {

@@ -26,11 +26,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Stylix theming
-    stylix = {
-      url = "github:danth/stylix/release-25.11";
-    };
-
     # Wallpapers (flake = false)
     wallpapers = {
       url = "github:LordSpecial/wallpapers";

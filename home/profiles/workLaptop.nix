@@ -8,6 +8,9 @@
     ../default.nix
     # Hyprland Config
     ../../system/programs/hyprland
+    ../../modules/home/hyprland
+    ../../modules/home/noctalia.nix
+    ../../modules/home/scripts
     ../../system/programs/vscodium.nix
     ../../system/programs/terminal.nix
   ];
@@ -47,12 +50,6 @@
     x11.enable = false;
   };
 
-  wayland.windowManager.hyprland.settings.monitor = "eDP-1,2560x1600@240.0,0x0,1.0";
-  wayland.windowManager.hyprland.settings.bindl = lib.mkAfter [
-    ",XF86MonBrightnessUp, exec, brightnessctl -d intel_backlight set +5%"
-    ",XF86MonBrightnessDown, exec, brightnessctl -d intel_backlight set 5%-"
-  ];
-
   home.sessionVariables = {
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
@@ -65,7 +62,6 @@
 
     # General Wayland app support
     NIXOS_OZONE_WL = "1";
-    QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
 
     LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
