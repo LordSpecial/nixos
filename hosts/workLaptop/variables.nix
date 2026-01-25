@@ -6,7 +6,7 @@
 
   # Applications
   terminal = "kitty";
-  browser = "brave";
+  browser = "zen-browser";
 
   # Keyboard
   keyboardLayout = "us";

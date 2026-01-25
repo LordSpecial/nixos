@@ -7,7 +7,6 @@
   inherit
     (vars)
     barChoice
-    browser
     terminal
     ;
   # Noctalia-specific bindings (only included when barChoice == "noctalia")
@@ -35,6 +34,17 @@
       "$modifier SHIFT,Return, Rofi Launcher, exec, rofi-launcher"
     ]
     else [];
+  # Overview/launcher on Super key release (only included based on barChoice)
+  overviewBind =
+    if barChoice == "noctalia"
+    then [
+      "$modifier,Super_L, exec, noctalia-shell ipc call launcher toggle"
+      "$modifier,Super_R, exec, noctalia-shell ipc call launcher toggle"
+    ]
+    else [
+      "$modifier,Super_L, exec, rofi-launcher"
+      "$modifier,Super_R, exec, rofi-launcher"
+    ];
   # Rofi clipboard binding (only included when barChoice != "noctalia")
   rofiClipboardBind =
     if barChoice != "noctalia"
@@ -52,9 +62,10 @@ in {
         # ============= TERMINALS =============
         "$modifier,Return, Terminal, exec, ${terminal}"
         # ============= APPLICATION LAUNCHERS =============
+        "$modifier,slash, Keybinds Preview, exec, qs-keybinds -m hyprland"
         "$modifier SHIFT,D, Discord, exec, discord"
         "$modifier SHIFT,N, Notification Reset, exec, swaync-client -rs"
-        "$modifier,W, Web Browser, exec, ${browser}"
+        "$modifier,W, Web Browser, exec, zen-browser"
         "$modifier,Y, File Manager, exec, kitty -e yazi"
         "$modifier,S, Screenshot, exec, screenshootin"
         # ============= SCREENSHOTS =============
@@ -117,18 +128,18 @@ in {
         "$modifier,9, Workspace 9, workspace, 9"
         "$modifier,0, Workspace 10, workspace, 10"
         # ============= MOVE WINDOW TO WORKSPACE (1-10) =============
-        "$modifier SHIFT,SPACE, Move to Special, movetoworkspace, special"
+        "$modifier CTRL SHIFT,SPACE, Move to Special, movetoworkspace, special"
         "$modifier,SPACE, Toggle Special, togglespecialworkspace"
-        "$modifier SHIFT,1, Move to Workspace 1, movetoworkspace, 1"
-        "$modifier SHIFT,2, Move to Workspace 2, movetoworkspace, 2"
-        "$modifier SHIFT,3, Move to Workspace 3, movetoworkspace, 3"
-        "$modifier SHIFT,4, Move to Workspace 4, movetoworkspace, 4"
-        "$modifier SHIFT,5, Move to Workspace 5, movetoworkspace, 5"
-        "$modifier SHIFT,6, Move to Workspace 6, movetoworkspace, 6"
-        "$modifier SHIFT,7, Move to Workspace 7, movetoworkspace, 7"
-        "$modifier SHIFT,8, Move to Workspace 8, movetoworkspace, 8"
-        "$modifier SHIFT,9, Move to Workspace 9, movetoworkspace, 9"
-        "$modifier SHIFT,0, Move to Workspace 10, movetoworkspace, 10"
+        "$modifier CTRL SHIFT,1, Move to Workspace 1, movetoworkspace, 1"
+        "$modifier CTRL SHIFT,2, Move to Workspace 2, movetoworkspace, 2"
+        "$modifier CTRL SHIFT,3, Move to Workspace 3, movetoworkspace, 3"
+        "$modifier CTRL SHIFT,4, Move to Workspace 4, movetoworkspace, 4"
+        "$modifier CTRL SHIFT,5, Move to Workspace 5, movetoworkspace, 5"
+        "$modifier CTRL SHIFT,6, Move to Workspace 6, movetoworkspace, 6"
+        "$modifier CTRL SHIFT,7, Move to Workspace 7, movetoworkspace, 7"
+        "$modifier CTRL SHIFT,8, Move to Workspace 8, movetoworkspace, 8"
+        "$modifier CTRL SHIFT,9, Move to Workspace 9, movetoworkspace, 9"
+        "$modifier CTRL SHIFT,0, Move to Workspace 10, movetoworkspace, 10"
         # ============= WORKSPACE NAVIGATION =============
         "$modifier CONTROL,right, Next Workspace, workspace, e+1"
         "$modifier CONTROL,left, Previous Workspace, workspace, e-1"
@@ -148,6 +159,8 @@ in {
         ",XF86MonBrightnessDown, Brightness Down, exec, brightnessctl set 5%-"
         ",XF86MonBrightnessUp, Brightness Up, exec, brightnessctl set +5%"
       ];
+
+    bindr = overviewBind;
 
     bindm = [
       "$modifier, mouse:272, movewindow"
