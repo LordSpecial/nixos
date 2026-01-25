@@ -59,7 +59,7 @@
 
       # Quick edit common files
       edit-config = "codium ~/.config/nixos/";
-      edit-home = "codium ~/.config/nixos/hosts/workLaptop/home.nix";
+      edit-home = "codium ~/.config/nixos/home/profiles/workLaptop.nix";
     };
   };
 
