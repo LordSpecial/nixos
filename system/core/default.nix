@@ -65,7 +65,7 @@
   services.libinput.enable = true;
 
   # Security
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
 
   # User
   users.users.simon = {

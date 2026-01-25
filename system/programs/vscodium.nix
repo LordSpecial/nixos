@@ -150,7 +150,7 @@
         "git.openRepositoryInParentFolders" = "always";
 
         # Security
-        "security.workspace.trust.untrustedFiles" = "open";
+        "security.workspace.trust.untrustedFiles" = "prompt";
 
         # Language specific
         "nix.enableLanguageServer" = true;
