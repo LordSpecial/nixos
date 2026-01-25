@@ -80,6 +80,12 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Add overlays for latest AI tools
+  nixpkgs.overlays = [
+    inputs.claude-code.overlays.default
+    inputs.codex-cli.overlays.default
+  ];
+
   # Base system packages
   environment.systemPackages = with pkgs; [
     vim
@@ -93,6 +99,10 @@
     xdg-utils
     polkit_gnome
     brightnessctl
+
+    # AI Development Tools (latest versions via community flakes)
+    claude-code  # Latest Claude Code
+    codex        # Latest Codex CLI
   ];
 
   # XDG portal

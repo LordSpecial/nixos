@@ -14,7 +14,6 @@
   home.packages = with pkgs; [
     kitty
     git-credential-manager
-    claude-code
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
