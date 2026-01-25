@@ -1,7 +1,5 @@
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -54,12 +52,12 @@
       mv = "mv -i";
 
       # Nix shortcuts
-      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#workLaptop";
-      test-rebuild = "sudo nixos-rebuild test --flake ~/.config/nixos#workLaptop";
+      rebuild = "make -C ~/.config/nixos switch";
+      test-rebuild = "make -C ~/.config/nixos test";
 
       # Quick edit common files
       edit-config = "codium ~/.config/nixos/";
-      edit-home = "codium ~/.config/nixos/home/profiles/workLaptop.nix";
+      edit-home = "set -l host (test -f ~/.config/nixos/.env; and awk -F= '/^HOST[[:space:]]*=/ {gsub(/[[:space:]]*/, \"\", $2); print $2; exit}' ~/.config/nixos/.env); if test -z \"$host\"; if set -q HOST; set host $HOST; else; set host workLaptop; end; end; codium ~/.config/nixos/home/profiles/$host.nix";
     };
   };
 
