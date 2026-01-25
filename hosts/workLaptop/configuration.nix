@@ -13,12 +13,11 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
 
-    # Graphics Stuff
-    ../../modules/system/intel-gpu.nix
-    ../../modules/system/nvidia-gpu.nix
-    ../../modules/system/hybrid-nv-in-gpu.nix
+    # Graphics Stuff - Hybrid Intel/NVIDIA setup
+    ../../system/hardware/intel-gpu.nix
+    ../../system/hardware/nvidia-gpu.nix
+    ../../system/hardware/hybrid-nv-in-gpu.nix
   ];
 
   # Bootloader.
@@ -130,14 +129,7 @@
     ];
   };
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    backupFileExtension = "backup";
-    users.simon = import ./home.nix;
-    # Allow unfree
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
+# Home-manager configuration is now handled in hosts/default.nix
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

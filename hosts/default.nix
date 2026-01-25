@@ -20,6 +20,15 @@
         modules = [
           ./workLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.simon.imports = [ ../home/profiles/workLaptop.nix ];
+              extraSpecialArgs = specialArgs;
+              backupFileExtension = ".hm-backup";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+            };
+          }
         ];
       };
 
@@ -28,6 +37,15 @@
         modules = [
           ./personalLaptop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.simon.imports = [ ../home/profiles/personalLaptop.nix ];
+              extraSpecialArgs = specialArgs;
+              backupFileExtension = ".hm-backup";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+            };
+          }
         ];
       };
     };
