@@ -47,6 +47,12 @@ in
     glxinfo # For OpenGL testing
     vulkan-tools # For Vulkan support
     nwg-displays
+    xfce.thunar
+    obs-studio
+    gimp
+    pavucontrol
+    playerctl
+    swaynotificationcenter
   ];
 
   system.stateVersion = "25.05";

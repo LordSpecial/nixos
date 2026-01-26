@@ -9,6 +9,7 @@ let
     barChoice
     terminal
     ;
+  browser = vars.browser or "zen";
   # Noctalia-specific bindings (only included when barChoice == "noctalia")
   noctaliaBind =
     if barChoice == "noctalia" then
@@ -22,7 +23,8 @@ let
         "$modifier ALT,L, Noctalia Lock Screen, exec,  noctalia-shell ipc call sessionMenu lockAndSuspend"
         "$modifier SHIFT,W, Noctalia Wallpaper, exec,  noctalia-shell ipc call wallpaper toggle"
         "$modifier,X, Noctalia Power Menu, exec,  noctalia-shell ipc call sessionMenu toggle"
-        "$modifier,C, Noctalia Control Center, exec,  noctalia-shell ipc call controlCenter toggle"
+        "$modifier,C, Code Editor, exec, codium"
+        "$modifier SHIFT,C, Noctalia Control Center, exec,  noctalia-shell ipc call controlCenter toggle"
         "$modifier CTRL,R, Noctalia Screen Recorder, exec,  noctalia-shell ipc call screenRecorder toggle"
       ]
     else
@@ -70,10 +72,10 @@ in
         "$modifier,slash, Keybinds Preview, exec, qs-keybinds -m hyprland"
         "$modifier SHIFT,D, Discord, exec, discord"
         "$modifier SHIFT,N, Notification Reset, exec, swaync-client -rs"
-        "$modifier,W, Web Browser, exec, zen-browser"
+        "$modifier,W, Web Browser, exec, ${browser}"
         "$modifier,M, Spotify, exec, spotify"
         "$modifier,Y, File Manager, exec, kitty -e yazi"
-        "$modifier,S, Screenshot, exec, screenshootin"
+        "$modifier,S, Screenshot (Clipboard), exec, hyprshot -m region --clipboard-only"
         # ============= SCREENSHOTS =============
         "$modifier CTRL,S, Screenshot Output, exec, hyprshot -m output -o $HOME/Pictures/ScreenShots"
         "$modifier SHIFT,S, Screenshot Window, exec, hyprshot -m window -o $HOME/Pictures/ScreenShots"
@@ -83,6 +85,7 @@ in
         "$modifier,G, GIMP, exec, gimp"
         "$modifier shift,T, Dropdown Terminal, exec, pypr toggle term"
         "$modifier,T, Thunar, exec, thunar"
+        "$modifier,E, Thunar, exec, thunar"
         "$modifier ALT,M, Audio Control, exec, pavucontrol"
         # ============= WINDOW MANAGEMENT =============
         "$modifier,Q, Kill Active Window, killactive,"
@@ -91,7 +94,7 @@ in
         "$modifier,F, Maximize, fullscreen,"
         "$modifier SHIFT,F, Toggle Floating, togglefloating,"
         "$modifier ALT,F, Float All Windows, workspaceopt, allfloat"
-        "$modifier SHIFT,C, Exit/Logout of Hyprland, exit,"
+        "$modifier SHIFT,Q, Exit/Logout of Hyprland, exit,"
         # ============= WINDOW MOVEMENT (ARROW KEYS) =============
         "$modifier SHIFT,left, Move Left, movewindow, l"
         "$modifier SHIFT,right, Move Right, movewindow, r"
