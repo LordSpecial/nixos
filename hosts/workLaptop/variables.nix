@@ -12,9 +12,9 @@
   keyboardLayout = "us";
   keyboardVariant = "";
 
-  # Monitor (set via hyprctl monitors if needed)
+  # Monitor (managed by nwg-displays -> ~/.config/hypr/monitors.conf)
   extraMonitorSettings = ''
-    monitor = eDP-1,2560x1600@240.0,0x0,1.0
+    source=~/.config/hypr/monitors.conf
   '';
 
   # Theming

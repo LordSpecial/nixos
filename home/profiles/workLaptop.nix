@@ -24,7 +24,6 @@
     fuzzel # App launcher
     dunst # Notifications
     swww # Wallpaper manager
-    nwg-displays
     quickshell
 
     # Graphics Tools

@@ -46,6 +46,7 @@ in
     pciutils # For GPU detection
     glxinfo # For OpenGL testing
     vulkan-tools # For Vulkan support
+    nwg-displays
   ];
 
   system.stateVersion = "25.05";
