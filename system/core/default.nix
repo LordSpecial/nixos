@@ -72,6 +72,10 @@
 
   # Security
   security.sudo.wheelNeedsPassword = true;
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout=240
+    Defaults timestamp_type=global
+  '';
 
   # User
   users.users.simon = {
@@ -108,8 +112,8 @@
     age
 
     # AI Development Tools (latest versions via community flakes)
-    claude-code  # Latest Claude Code
-    codex        # Latest Codex CLI
+    claude-code # Latest Claude Code
+    codex # Latest Codex CLI
 
     # Hyprland + Noctalia essentials
     cliphist
