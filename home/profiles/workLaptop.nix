@@ -10,6 +10,8 @@
     # Hyprland Config
     ../../system/programs/hyprland
     ../../modules/home/hyprland
+    ../../modules/home/dev-tools.nix
+    ../../modules/home/dev-repos.nix
     ../../modules/home/noctalia.nix
     ../../modules/home/scripts
     ../../system/programs/vscodium.nix

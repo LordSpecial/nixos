@@ -162,6 +162,10 @@
         # C/C++
         "C_Cpp.intelliSenseEngine" = "disabled"; # You had this disabled
         "C_Cpp.markdownInComments" = "enabled";
+        "clangd.path" = "${pkgs.llvmPackages_latest.clang-tools}/bin/clangd";
+        "clangd.arguments" = [
+          "--clang-tidy"
+        ];
 
         # QML
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
@@ -204,6 +208,18 @@
         # Formatting
         "[nix]" = {
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        };
+        "[c]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[cpp]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[objc]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[objcpp]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
         };
         "[python]" = {
           "editor.defaultFormatter" = "ms-python.black-formatter";

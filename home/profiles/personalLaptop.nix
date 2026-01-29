@@ -10,6 +10,7 @@
     # Hyprland Config
     ../../system/programs/hyprland
     ../../system/programs/vscodium.nix
+    ../../modules/home/dev-repos.nix
   ];
 
   home.packages = with pkgs; [

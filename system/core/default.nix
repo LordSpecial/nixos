@@ -76,12 +76,23 @@
     Defaults timestamp_timeout=240
     Defaults timestamp_type=global
   '';
+  services.udev.extraRules = ''
+    # ST-Link USB adapters (allow access for active user)
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374b", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="374f", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3752", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3753", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3757", TAG+="uaccess"
+  '';
 
   # User
   users.users.simon = {
     isNormalUser = true;
     description = "Simon A";
     extraGroups = [
+      "dialout"
       "networkmanager"
       "wheel"
     ];
@@ -106,6 +117,7 @@
     discord
     gnumake
     firefox
+    gitkraken
     xdg-utils
     polkit_gnome
     brightnessctl
