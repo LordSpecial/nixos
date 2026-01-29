@@ -89,15 +89,6 @@ in {
         "size 70% 60%, initialTitle:(Add Folder to Workspace)"
         "size 70% 70%, tag:settings*"
         "size 60% 70%, class:^([Ff]erdium)$"
-        "opacity 1.0 1.0, tag:browser*"
-        "opacity 0.9 0.8, tag:projects*"
-        "opacity 0.94 0.86, tag:im*"
-        "opacity 0.9 0.8, tag:file-manager*"
-        "opacity 0.8 0.7, tag:terminal*"
-        "opacity 0.8 0.7, tag:settings*"
-        "opacity 0.8 0.7, class:^(gedit|org.gnome.TextEditor|mousepad)$"
-        "opacity 0.9 0.8, class:^(seahorse)$ # gnome-keyring gui"
-        "opacity 0.95 0.75, title:^(Picture-in-Picture)$"
         "pin, title:^(Picture-in-Picture)$"
         "keepaspectratio, title:^(Picture-in-Picture)$"
         "noblur, tag:games*"
@@ -119,8 +110,6 @@ in {
         # qs-wlogout styling via compositor - power menu overlay
         "noborder, class:^(org\\.qt-project\\.qml)$, title:^(qs-wlogout)$"
         "rounding 20, class:^(org\\.qt-project\\.qml)$, title:^(qs-wlogout)$"
-        "opacity 1.0 1.0, class:^(org\\.qt-project\\.qml)$, title:^(qs-wlogout)$"
-
         # qs-docs / qs-cheatsheets overlay windows
         "noborder, class:^(org\\.qt-project\\.qml)$, title:^(Cheatsheets Viewer)$"
         "noshadow, class:^(org\\.qt-project\\.qml)$, title:^(Cheatsheets Viewer)$"

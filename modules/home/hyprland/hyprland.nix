@@ -142,14 +142,14 @@ in
       decoration = {
         rounding = 10;
         blur = {
-          enabled = true;
+          enabled = false;
           size = 5;
           passes = 3;
           ignore_opacity = false;
           new_optimizations = true;
         };
         shadow = {
-          enabled = true;
+          enabled = false;
           range = 4;
           render_power = 3;
           color = "rgba(1a1a1aee)";
