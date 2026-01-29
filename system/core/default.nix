@@ -105,6 +105,7 @@
     xdg-utils
     polkit_gnome
     brightnessctl
+    age
 
     # AI Development Tools (latest versions via community flakes)
     claude-code  # Latest Claude Code

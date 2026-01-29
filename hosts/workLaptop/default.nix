@@ -37,6 +37,8 @@ in
 
   networking.hostName = "nixos";
 
+  age.identityPaths = [ "/home/simon/.config/agenix/ageWorkLaptop.key" ];
+
   # Configure Graphics - specific to this hybrid setup
   system.hybrid.enable = true;
 

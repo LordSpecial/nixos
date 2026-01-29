@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -17,7 +18,6 @@
 
   home.packages = with pkgs; [
     kitty
-    git-credential-manager
     spotify
 
     # Hyprland ecosystem packages
@@ -37,8 +37,14 @@
     userEmail = "simon@aquila.earth";
 
     extraConfig = {
-      credential.helper = "manager";
-      credential.credentialStore = "secretservice";
+      credential = {
+        "https://github.com/LordSpecial" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
+        };
+        "https://github.com/AquilaSpace" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-aquilaspace";
+        };
+      };
     };
   };
 

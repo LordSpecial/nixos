@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -13,7 +14,6 @@
 
   home.packages = with pkgs; [
     kitty
-    git-credential-manager
 
     # Hyprland ecosystem packages
     fuzzel # App launcher
@@ -30,11 +30,17 @@
   programs.git = {
     enable = true;
     userName = "Simon";
-    userEmail = "bcspace8@gmail.com";
+    userEmail = "simon@aquila.earth";
 
     extraConfig = {
-      credential.helper = "manager";
-      credential.credentialStore = "secretservice";
+      credential = {
+        "https://github.com/LordSpecial" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
+        };
+        "https://github.com/AquilaSpace" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-aquilaspace";
+        };
+      };
     };
   };
 
