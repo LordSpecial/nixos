@@ -22,12 +22,6 @@
     foot
     spotify
 
-    # Hyprland ecosystem packages
-    fuzzel # App launcher
-    dunst # Notifications
-    swww # Wallpaper manager
-    quickshell
-
     # Graphics Tools
     nvtopPackages.full
   ];
@@ -83,10 +77,6 @@
   };
 
   home.sessionVariables = {
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    XDG_SESSION_TYPE = "wayland";
-
     # Firefox/Zen browser Wayland fixes
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_WEBRENDER = "1";

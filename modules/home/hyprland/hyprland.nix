@@ -50,6 +50,9 @@ in
     hyprpolkitagent
     hyprshot
     hyprpicker
+    fuzzel # App launcher
+    dunst # Notifications
+    quickshell
     #hyprland-qtutils # needed for banners and ANR messages
   ];
   systemd.user.targets.hyprland-session.Unit.Wants = [
