@@ -4,6 +4,7 @@ let
     ./core
     ./secrets/agenix.nix
     ./secrets/git-credentials.nix
+    ./secrets/ssh-keys.nix
   ];
 in
 {

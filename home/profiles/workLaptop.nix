@@ -50,6 +50,16 @@
     };
   };
 
+  # SSH default identity
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      Host *
+        IdentityFile ~/.ssh/work_laptop_id_ed25519
+        IdentitiesOnly yes
+    '';
+  };
+
   home.pointerCursor = {
     name = "Qogir";
     package = pkgs.qogir-icon-theme;

@@ -6,4 +6,5 @@ in
   "secrets/Potentially-Safe-Network.nmconnection.age".publicKeys = [ workLaptop ];
   "secrets/git-credentials-lordspecial.age".publicKeys = [ workLaptop ];
   "secrets/git-credentials-aquilaspace.age".publicKeys = [ workLaptop ];
+  "secrets/work-laptop-ssh-key.age".publicKeys = [ workLaptop ];
 }
