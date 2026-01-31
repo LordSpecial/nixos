@@ -19,7 +19,7 @@
   ];
 
   home.packages = with pkgs; [
-    kitty
+    foot
     spotify
 
     # Hyprland ecosystem packages

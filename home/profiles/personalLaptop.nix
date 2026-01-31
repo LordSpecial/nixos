@@ -14,7 +14,7 @@
   ];
 
   home.packages = with pkgs; [
-    kitty
+    foot
 
     # Hyprland ecosystem packages
     fuzzel # App launcher

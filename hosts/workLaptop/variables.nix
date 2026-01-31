@@ -5,7 +5,7 @@
   animChoice = ../../modules/home/hyprland/animations-end4.nix;
 
   # Applications
-  terminal = "kitty";
+  terminal = "foot";
   browser = "zen";
 
   # Keyboard

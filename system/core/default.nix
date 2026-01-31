@@ -142,6 +142,13 @@
     gpu-screen-recorder
   ];
 
+  # Fonts
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
+  ];
+
   # Power and battery services (Noctalia needs these)
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;

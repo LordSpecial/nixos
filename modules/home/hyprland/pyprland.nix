@@ -17,8 +17,8 @@ in {
 
     [scratchpads.term]
     animation = "fromTop"
-    command = "${terminal} --class kitty-dropterm"
-    class = "kitty-dropterm"
+    command = "${terminal} --app-id foot-dropterm"
+    class = "foot-dropterm"
     size = "70% 70%"
     max_size = "1920px 100%"
     position = "150px 150px"

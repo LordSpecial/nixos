@@ -89,37 +89,19 @@
     enableFishIntegration = true;
   };
 
-  # Kitty terminal (same as before)
-  programs.kitty = {
+  # Foot terminal
+  programs.foot = {
     enable = true;
-    font = {
-      name = "JetBrains Mono";
-      size = 12;
-    };
     settings = {
-      # Window settings
-      window_padding_width = 8;
-      window_border_width = 0;
-
-      # Tab settings
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-
-      # Shell
-      shell = "${pkgs.fish}/bin/fish";
-
-      # Performance
-      repaint_delay = 10;
-      input_delay = 3;
-      sync_to_monitor = "yes";
-    };
-    keybindings = {
-      "ctrl+shift+t" = "new_tab";
-      "ctrl+shift+q" = "close_tab";
-      "ctrl+shift+right" = "next_tab";
-      "ctrl+shift+left" = "previous_tab";
-      "ctrl+shift+enter" = "new_window";
-      "ctrl+shift+w" = "close_window";
+      main = {
+        font = "JetBrains Mono:size=12, JetBrainsMono Nerd Font:size=12, Symbols Nerd Font:size=12";
+        shell = "${pkgs.fish}/bin/fish";
+        pad = "20x20";
+      };
+      colors = {
+        alpha = 1.0;
+        background = "000000";
+      };
     };
   };
 

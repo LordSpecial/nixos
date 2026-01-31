@@ -74,7 +74,7 @@ in
         "$modifier SHIFT,N, Notification Reset, exec, swaync-client -rs"
         "$modifier,W, Web Browser, exec, ${browser}"
         "$modifier,M, Spotify, exec, spotify"
-        "$modifier,Y, File Manager, exec, kitty -e yazi"
+        "$modifier,Y, File Manager, exec, ${terminal} yazi"
         "$modifier,S, Screenshot (Clipboard), exec, hyprshot -m region --clipboard-only"
         # ============= SCREENSHOTS =============
         "$modifier CTRL,S, Screenshot Output, exec, hyprshot -m output -o $HOME/Pictures/ScreenShots"
