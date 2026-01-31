@@ -37,6 +37,9 @@ in
 
   networking.hostName = "nixos";
 
+  # Cloudflare WARP
+  services.cloudflare-warp.enable = true;
+
   age.identityPaths = [ "/home/simon/.config/agenix/ageWorkLaptop.key" ];
 
   # Configure Graphics - specific to this hybrid setup
