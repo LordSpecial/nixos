@@ -78,6 +78,7 @@ in
       enable = true;
     };
     settings = {
+      "$modifier" = "SUPER";
       input = {
         kb_layout = hyprKbLayout;
         kb_options = [
@@ -108,7 +109,6 @@ in
       };
 
       general = {
-        "$modifier" = "SUPER";
         layout = "dwindle";
         gaps_in = 6;
         gaps_out = 8;

@@ -29,10 +29,11 @@
   # Git configuration with credential manager
   programs.git = {
     enable = true;
-    userName = "Simon";
-    userEmail = "simon@aquila.earth";
-
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Simon";
+        email = "simon@aquila.earth";
+      };
       credential = {
         "https://github.com/LordSpecial" = {
           helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
@@ -47,11 +48,11 @@
   # SSH default identity
   programs.ssh = {
     enable = true;
-    extraConfig = ''
-      Host *
-        IdentityFile ~/.ssh/work_laptop_id_ed25519
-        IdentitiesOnly yes
-    '';
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      identityFile = [ "~/.ssh/work_laptop_id_ed25519" ];
+      identitiesOnly = true;
+    };
   };
 
   home.pointerCursor = {

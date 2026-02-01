@@ -15,6 +15,7 @@ let
     if barChoice == "noctalia" then
       [
         "$modifier,D, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
+        "SHIFT ALT,Return, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
         "$modifier SHIFT,Return, Noctalia Launcher, exec,  noctalia-shell ipc call launcher toggle"
         "$modifier,N, Noctalia Notifications, exec, noctalia-shell ipc call notifications toggleHistory"
         "$modifier,V, Noctalia Clipboard, exec,  noctalia-shell ipc call launcher clipboard"

@@ -31,7 +31,7 @@
 
   # Personal-specific packages
   environment.systemPackages = with pkgs; [
-    zen-browser.packages.${pkgs.system}.default
+    zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   system.stateVersion = "25.05";

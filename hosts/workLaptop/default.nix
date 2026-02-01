@@ -47,12 +47,12 @@ in
 
   # Work-specific packages
   environment.systemPackages = with pkgs; [
-    zen-browser.packages.${pkgs.system}.default
+    zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     pciutils # For GPU detection
-    glxinfo # For OpenGL testing
+    mesa-demos # For OpenGL testing
     vulkan-tools # For Vulkan support
     nwg-displays
-    xfce.thunar
+    thunar
     obs-studio
     gimp
     pavucontrol

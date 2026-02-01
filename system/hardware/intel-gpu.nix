@@ -21,7 +21,7 @@ in
   config = mkIf cfg.enable {
     hardware.graphics.extraPackages = with pkgs; [
       (if cfg.useNewDriver then intel-media-driver else intel-vaapi-driver)
-      vaapiVdpau
+      libva-vdpau-driver
       libvdpau-va-gl
     ];
   };
