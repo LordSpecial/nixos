@@ -7,6 +7,7 @@
     go
     python3
     cmake
+    ninja
     stm32cubemx
     openocd
     gcc-arm-embedded

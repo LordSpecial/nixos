@@ -36,9 +36,23 @@ in
   };
 
   networking.hostName = "nixos";
+  services.resolved.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
 
   # Cloudflare WARP
   services.cloudflare-warp.enable = true;
+
+  # Tailscale VPN
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "none";
+    extraUpFlags = [
+      "--accept-dns=true"
+      "--accept-routes=false"
+    ];
+  };
+  networking.firewall.checkReversePath = "loose";
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   age.identityPaths = [ "/home/simon/.config/agenix/ageWorkLaptop.key" ];
 
@@ -58,6 +72,7 @@ in
     pavucontrol
     playerctl
     swaynotificationcenter
+    tailscale
   ];
 
   system.stateVersion = "25.05";
