@@ -151,10 +151,10 @@ in
         "$modifier CTRL SHIFT,9, Move to Workspace 9, movetoworkspace, 9"
         "$modifier CTRL SHIFT,0, Move to Workspace 10, movetoworkspace, 10"
         # ============= WORKSPACE NAVIGATION =============
-        "$modifier CONTROL,right, Next Workspace, workspace, +1"
-        "$modifier CONTROL,left, Previous Workspace, workspace, -1"
-        "$modifier,mouse_up, Next Workspace Mouse, workspace, +1"
-        "$modifier,mouse_down, Previous Workspace Mouse, workspace, -1"
+        "$modifier CONTROL,right, Next Workspace, workspace, r+1"
+        "$modifier CONTROL,left, Previous Workspace, workspace, r-1"
+        "$modifier,mouse_up, Next Workspace Mouse, workspace, r+1"
+        "$modifier,mouse_down, Previous Workspace Mouse, workspace, r-1"
         # ============= WINDOW CYCLING =============
         "ALT,Tab, Cycle Next Window, cyclenext"
         "ALT,Tab, Bring Active To Top, bringactivetotop"
