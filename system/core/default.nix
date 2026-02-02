@@ -85,6 +85,10 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3753", TAG+="uaccess"
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", TAG+="uaccess"
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3757", TAG+="uaccess"
+
+    # Fallback for non-seat sessions (grant dialout group access)
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", MODE="0660", GROUP="dialout"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3754", MODE="0660", GROUP="dialout"
   '';
 
   # User
