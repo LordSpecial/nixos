@@ -31,6 +31,9 @@
           ms-vscode-remote.remote-ssh
           ms-vscode.remote-explorer
 
+          # Git
+          eamodio.gitlens
+
           # GitHub Copilot (if you have access)
           github.copilot
           github.copilot-chat
@@ -134,6 +137,15 @@
 
         # Terminal
         "terminal.integrated.fontLigatures.enabled" = true;
+        "terminal.integrated.defaultProfile.linux" = "fish";
+        "terminal.integrated.profiles.linux" = {
+          fish = {
+            path = "${pkgs.fish}/bin/fish";
+            args = [
+              "-l"
+            ];
+          };
+        };
 
         # Files
         "files.autoSave" = "onFocusChange";
@@ -162,10 +174,12 @@
         # C/C++
         "C_Cpp.intelliSenseEngine" = "disabled"; # You had this disabled
         "C_Cpp.markdownInComments" = "enabled";
+        "C_Cpp.clang_format_style" = "file";
         "clangd.path" = "${pkgs.llvmPackages_latest.clang-tools}/bin/clangd";
         "clangd.arguments" = [
           "--clang-tidy"
         ];
+        "clang-format.style" = "file";
 
         # QML
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;

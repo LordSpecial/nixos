@@ -134,6 +134,7 @@
     tree # Directory tree view
     tokei # Code statistics
     bandwhich # Network bandwidth usage
+    numbat # Unit-aware calculator
   ];
 
   # Set Fish as default shell

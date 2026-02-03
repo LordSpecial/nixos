@@ -116,6 +116,7 @@
     vim
     wget
     git
+    gcc
     slack
     vscodium
     discord
