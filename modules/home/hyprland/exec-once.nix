@@ -15,8 +15,7 @@
     then [
       "killall -q waybar"
       "pkill waybar"
-      "killall -q swaync"
-      "pkill swaync"
+      "killall -q swaync;sleep .5 && swaync"
       "sh -lc 'echo \"--- $(date) ---\" >> /tmp/noctalia.log; echo \"PATH=$PATH\" >> /tmp/noctalia.log; command -v noctalia-shell >> /tmp/noctalia.log 2>&1; sleep 1; nohup noctalia-shell >> /tmp/noctalia.log 2>&1 & echo \"started pid=$!\" >> /tmp/noctalia.log'"
     ]
     else [];

@@ -51,7 +51,6 @@ in
     hyprshot
     hyprpicker
     fuzzel # App launcher
-    dunst # Notifications
     quickshell
     #hyprland-qtutils # needed for banners and ANR messages
   ];
