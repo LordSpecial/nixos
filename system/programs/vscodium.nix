@@ -3,10 +3,22 @@
   lib,
   ...
 }:
+let
+  vscodiumWithLibstdcxx = pkgs.vscodium.overrideAttrs (old: {
+    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
+    # Cortex-Debug ships native modules; libstdc++ must be visible to the extension host.
+    postFixup =
+      (old.postFixup or "")
+      + ''
+        wrapProgram $out/bin/codium \
+          --prefix LD_LIBRARY_PATH : ${pkgs.gcc.cc.lib}/lib
+      '';
+  });
+in
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = vscodiumWithLibstdcxx;
 
     profiles.default = {
       extensions =
@@ -180,6 +192,7 @@
           "--clang-tidy"
         ];
         "clang-format.style" = "file";
+        "cortex-debug.gdbPath" = "${pkgs.gcc-arm-embedded}/bin/arm-none-eabi-gdb";
 
         # QML
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
