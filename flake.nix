@@ -4,6 +4,7 @@
   inputs = {
     # Core system - always nixos-unstable for latest packages
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-25_11.url = "github:nixos/nixpkgs?ref=nixos-25.11";
 
     # Flake framework
     flake-parts = {
@@ -52,6 +53,10 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    aq-agent-config = {
+      url = "github:LordSpecial/aq-agent-config";
     };
   };
 

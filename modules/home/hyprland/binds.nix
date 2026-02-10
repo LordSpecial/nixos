@@ -150,6 +150,8 @@ in
         "$modifier CTRL SHIFT,8, Move to Workspace 8, movetoworkspace, 8"
         "$modifier CTRL SHIFT,9, Move to Workspace 9, movetoworkspace, 9"
         "$modifier CTRL SHIFT,0, Move to Workspace 10, movetoworkspace, 10"
+        "$modifier CTRL SHIFT,left, Move Window to Previous Workspace, movetoworkspace, r-1"
+        "$modifier CTRL SHIFT,right, Move Window to Next Workspace, movetoworkspace, r+1"
         # ============= WORKSPACE NAVIGATION =============
         "$modifier CONTROL,right, Next Workspace, workspace, r+1"
         "$modifier CONTROL,left, Previous Workspace, workspace, r-1"

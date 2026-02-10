@@ -86,6 +86,7 @@
     # General Wayland app support
     NIXOS_OZONE_WL = "1";
     GDK_BACKEND = "wayland";
+    QT_QPA_PLATFORM = "wayland";
 
     LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
 

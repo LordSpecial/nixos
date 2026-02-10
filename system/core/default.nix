@@ -89,6 +89,12 @@
     # Fallback for non-seat sessions (grant dialout group access)
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", MODE="0660", GROUP="dialout"
     KERNEL=="hidraw*", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="3754", MODE="0660", GROUP="dialout"
+
+    # Removable USB storage: allow active local user access for imaging tools.
+    SUBSYSTEM=="block", ENV{ID_BUS}=="usb", ENV{ID_TYPE}=="disk", TAG+="uaccess"
+
+    # Specific SD card reader seen as /dev/sda (Generic STORAGE DEVICE).
+    SUBSYSTEM=="block", ENV{ID_SERIAL}=="Generic_STORAGE_DEVICE-0:0", ENV{ID_TYPE}=="disk", GROUP="wheel", MODE="0660"
   '';
 
   # User
@@ -109,6 +115,9 @@
   nixpkgs.overlays = [
     inputs.claude-code.overlays.default
     inputs.codex-cli.overlays.default
+    (final: prev: {
+      rpi-imager = inputs.nixpkgs-25_11.legacyPackages.${prev.system}.rpi-imager;
+    })
   ];
 
   # Base system packages
@@ -127,6 +136,7 @@
     polkit_gnome
     brightnessctl
     age
+    rpi-imager
 
     # AI Development Tools (latest versions via community flakes)
     claude-code # Latest Claude Code
