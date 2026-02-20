@@ -1,0 +1,203 @@
+networks:
+  media-network:
+    name: media-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
+  home-automation-network:
+    name: home-automation-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+  games-network:
+    name: games-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/16
+  immich-network:
+    name: immich-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.24.0.0/16
+  core-network:
+    name: core-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - 9443:9443
+    volumes:
+      - /home/server/core/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks:
+      - core-network
+
+  swag:
+    image: lscr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - URL=kmsam.uk
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+    volumes:
+      - /home/server/SWAG:/config:rw
+      - /home/simon/RankingWebsite:/websites/ranking:ro
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: unless-stopped
+    networks:
+      core-network:
+        ipv4_address: 172.20.0.100
+      media-network:
+      home-automation-network:
+      games-network:
+      immich-network:
+
+  rathole-client:
+      image: rapiz1/rathole:latest
+      container_name: rathole-client
+      restart: unless-stopped
+      volumes:
+        - /home/server/core/rathole/client.toml:/app/config.toml:ro
+      command: --client /app/config.toml
+      networks:
+        - core-network
+      depends_on:
+        - swag
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    env_file:
+      - /home/server/core/homepage/.env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - HOMEPAGE_ALLOWED_HOSTS=home.kmsam.uk
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/server/core/homepage/:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+      - /backup-tank/:/BackupDrive/
+    networks:
+      - core-network
+      - media-network
+      - home-automation-network
+    restart: unless-stopped
+
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    volumes:
+      - /backup-tank/Files:/srv
+      - /backup-tank/:/srv/All
+      - /home/server/core/filebrowser/database/database.db:/database.db #Change to match your directory
+      - /home/server/core/filebrowser/config/.filebrowser.json:/.filebrowser.json #Change to match your directory
+      - /home/server/core/filebrowser/config-dir:/config
+      - /home/server/core/filebrowser/database-dir:/database
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - 8095:80 #Change the port if needed
+    networks:
+      - core-network
+    restart: unless-stopped
+
+  code-server:
+    image: linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000  # Adjust if necessary
+      - PGID=1000  # Adjust if necessary
+      - TZ=Pacific/Auckland  # Change to your timezone
+      - PASSWORD=Micheal100  # Set your own password
+    volumes:
+      - /home/server/core/vscode/config:/config  # Adjust the path to your config directory
+      - /home/server/core/vscode/projects:/projects  # Adjust the path to your projects directory
+      - /home/:/projects/serverHome:ro
+    networks:
+      - core-network
+    ports:
+      - 8443:8443  # Change if necessary
+    restart: unless-stopped
+
+  ranking-website:
+    image: nginx:latest
+    container_name: ranking-website
+    environment:
+      - NGINX_HOST=kmsam.uk
+      - NGINX_PORT=80
+    volumes:
+      - /home/simon/RankingWebsite/:/usr/share/nginx/html:ro
+    networks:
+      - core-network
+    ports:
+      - "9811:80"
+    restart: unless-stopped
+
+  duplicacy:
+    image: saspus/duplicacy-web:latest
+    container_name: duplicacy-web
+    hostname: SpecialServer
+    ports:
+      - 3875:3875
+    environment:
+      - USR_ID=1000
+      - GRP_ID=1000
+      - TZ=Pacific/Auckland
+    networks:
+      - core-network
+    volumes:
+      - /home/server/core/Duplicacy:/config
+      - /home/server/core/Duplicacy/Logs:/logs
+      - /home/server/core/Duplicacy/Cache:/cache
+      - /home:/HomeBackup:ro
+      - /backup-tank:/BackupDrive
+
+  syncyomi:
+    container_name: syncyomi
+    image: ghcr.io/syncyomi/syncyomi:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Pacific/Auckland
+    volumes:
+      - /home/server/core/syncyomi/config:/config
+    networks:
+      - core-network
+    ports:
+      - 8282:8282
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    restart: always
+    command: tunnel --no-autoupdate run --token eyJhIjoiZmE3NmE0MmJjNDBlYTQ0ZmQyZTcxYmI1Y2EwYjQ2YjYiLCJ0IjoiMzJjYzQxZmMtMzA1NS00NWM5LWFmNTEtODU1NzgxZDdhYWVjIiwicyI6Ik16VTFPVE5qWldRdE1XSTNOaTAwTlRrNExXSmlPRFV0WWpVM1ptSXlaVEZpTjJGbCJ9
+    volumes:
+      - /home/server/core/cloudflared:/etc/cloudflared
+    networks:
+      - core-network

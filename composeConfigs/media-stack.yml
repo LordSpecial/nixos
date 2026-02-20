@@ -1,0 +1,455 @@
+version: "3.7"
+
+networks:
+  media-network:
+    external: true
+    name: media-network
+    # ipam:
+    #   driver: default
+    #   config:
+    #   - subnet: 172.28.10.0/24
+    #     gateway: 172.28.10.1
+
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    pull_policy: always
+    container_name: gluetun
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "8888:8888/tcp"     # Gluetun Local Network HTTP proxy
+      - "8388:8388/tcp"     # Gluetun Local Network Shadowsocks
+      - "8388:8388/udp"     # Gluetun Local Network Shadowsocks
+      - "8200:8200"         # WebUI Portal: qBittorrent
+      - "8100:8080"
+      - "8400:8400"         # WebUI Portal: Annas Archive
+      - "8084:8084"         # Calibre-web downloader
+    volumes:
+      - /home/server/media-stack/gluetun:/gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - OPENVPN_USER=6VWqwZHCxaqFV42qRFy3awfr
+      - OPENVPN_PASSWORD=7TfWLeNzY1pCbmvPiVNeopUR
+      - SERVER_REGION=Oceania
+      - SERVER_CITIES=Auckland
+      - FIREWALL_OUTBOUND_SUBNETS=10.168.1.0/24
+      - VPN_TYPE=openvpn
+      - HTTPPROXY=on
+      - SHADOWSOCKS=on
+
+# NOTE: Gluetun VPN container MUST ONLY connect to the media-network
+
+    networks:
+      - media-network
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Bazarr (LinuxServer.io)
+##  Function: Download subtitles for Radarr and Sonarr
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-bazarr
+##
+###########################################################################
+###########################################################################
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    pull_policy: always
+    container_name: bazarr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/bazarr:/config
+      - /backup-tank:/data
+    ports:
+      - "6767:6767"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
+      - TP_THEME=nord
+    networks:
+      - media-network
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Flaresolverr (Flaresolverr)
+##  Function: Cloudflare Proxy Server
+##
+##  Documentation: https://github.com/FlareSolverr/FlareSolverr
+##
+###########################################################################
+###########################################################################
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/flaresolverr:/config
+    ports:
+      - "8191:8191"
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=Pacific/Auckland
+    networks:
+      media-network:
+        ipv4_address: 172.22.1.13
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Jellyfin (LinuxServer.io)
+##  Function: Media Server
+##
+##  Documentation: https://jellyfin.org/docs/general/administration/installing#docker
+##  https://jellyfin.org/docs/general/administration/hardware-acceleration/
+##
+###########################################################################
+###########################################################################
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+# Add Configurations for GPU Hardware Rendering Here:
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+    volumes:
+      - /home/server/media-stack/jellyfin:/config
+      - /backup-tank:/data/media
+    ports:
+      - "8096:8096"
+#      - 7359:7359/udp      # Enable for DLNA - Only works on HOST Network Mode
+#      - 1900:1900/udp      # Enable for DLNA - Only works on HOST Network Mode
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=0002
+      - TZ=Pacific/Auckland
+    networks:
+      - media-network
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Jellyseerr (fallenbagel)
+##  Function: Media Request Manager
+##
+##  Documentation: https://hub.docker.com/r/fallenbagel/jellyseerr
+##
+###########################################################################
+###########################################################################
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/jellyseerr:/app/config
+    ports:
+      - "5055:5055"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=0002
+      - TZ=Pacific/Auckland
+    networks:
+      - media-network
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Lidarr (LinuxServer.io)
+##  Function: Music Library Manager
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-lidarr
+##
+###########################################################################
+###########################################################################
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/lidarr:/config
+      - /backup-tank:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
+      - TP_THEME=nord
+    networks:
+      - media-network
+    ports:
+      - "8686:8686"                             # Lidarr
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Prowlarr (LinuxServer.io)
+##  Function: Indexer and Search Manager
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-prowlarr
+##
+###########################################################################
+  ###########################################################################
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/prowlarr:/config
+    ports:
+      - "9696:9696"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
+      - TP_THEME=nord
+    networks:
+      - media-network
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: qBittorrent (LinuxServer.io)
+##  Function: Torrent Download Client
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-qbittorrent
+##
+###########################################################################
+###########################################################################
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/qbittorrent:/config
+      - /backup-tank:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=0002
+      - TZ=Pacific/Auckland
+      - WEBUI_PORT=8200
+    entrypoint: ["/bin/sh", "-c", "sleep 15 && /init"] # maybe do a glutun healthcheck
+#      - DOCKER_MODS=ghcr.io/gilbn/theme.park:qbittorrent
+#      - TP_THEME=nord
+
+## Do Not Change Network for qBittorrent
+## qBittorrent MUST always use a VPN / Secure Internet connection
+    network_mode: "service:gluetun"
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Radarr (LinuxServer.io)
+##  Function: Movie Library Manager
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-radarr
+##
+###########################################################################
+###########################################################################
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/radarr:/config
+      - /backup-tank:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
+      - TP_THEME=nord
+    networks:
+      - media-network
+    ports:
+      - "7878:7878"                             # Radarr
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: SABnzbd (LinuxServer.io)
+##  Function: Usenet Download Client
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-sabnzbd
+##
+###########################################################################
+###########################################################################
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/sabnzbd:/config
+      - /backup-tank:/data
+    environment:
+      - PUID=100
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sabnzbd
+      - TP_THEME=nord
+
+## useNet MUST always use a VPN / Secure Internet connection
+    network_mode: "service:gluetun"
+
+###########################################################################
+###########################################################################
+##
+##  Docker Compose File: Sonarr (LinuxServer.io)
+##  Function: Series Library Manager (TV Shows)
+##
+##  Documentation: https://docs.linuxserver.io/images/docker-sonarr
+##
+###########################################################################
+###########################################################################
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/sonarr:/config
+      - /backup-tank:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
+      - TP_THEME=nord
+    networks:
+      - media-network
+    ports:
+      - "8989:8989"                             # Sonarr
+
+###########################################################################
+###########################################################################
+##
+##  Annas Archive Seeder
+##  Function: Hosts annas archive and seeds continuously
+##
+###########################################################################
+###########################################################################
+  annas-archive:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: annas-archive
+    restart: unless-stopped
+    volumes:
+      - /home/server/media-stack/annas-archive:/config
+      - /backup-tank/annas-archive/:/data
+    environment:
+      - PUID=1000
+      - PGID=100
+      - UMASK=0002
+      - TZ=Pacific/Auckland
+      - WEBUI_PORT=8400
+#      - DOCKER_MODS=ghcr.io/gilbn/theme.park:qbittorrent
+#      - TP_THEME=nord
+
+## Do Not Change Network for qBittorrent
+## qBittorrent MUST always use a VPN / Secure Internet connection
+    network_mode: "service:gluetun"
+
+###########################################################################
+###########################################################################
+##
+##  Calibre Web Automated
+##  Function: Manages an online book library
+##
+###########################################################################
+###########################################################################
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web-automated
+    environment:
+      - PUID=1000
+      - PGID=1000
+      # Edit to match your current timezone https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      - TZ=Pacific/Auckland
+      # Hardcover API Key required for Hardcover as a Metadata Provider, get one here: https://docs.hardcover.app/api/getting-started/
+      - HARDCOVER_TOKEN="Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJIYXJkY292ZXIiLCJ2ZXJzaW9uIjoiOCIsImp0aSI6IjI0YTdjZDE1LWFjNTMtNGFhMC04ZTA4LTJiOTE4ODljZjZiZCIsImFwcGxpY2F0aW9uSWQiOjIsInN1YiI6IjQ0OTk2IiwiYXVkIjoiMSIsImlkIjoiNDQ5OTYiLCJsb2dnZWRJbiI6dHJ1ZSwiaWF0IjoxNzU2NDYxNjMxLCJleHAiOjE3ODc5OTc2MzEsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1yb2xlIjoidXNlciIsIlgtaGFzdXJhLXVzZXItaWQiOiI0NDk5NiJ9LCJ1c2VyIjp7ImlkIjo0NDk5Nn19.d_0nmj2O6r55J7dyH8g--TAPlTCx95mij95fQ8qSjlo"
+      # If your library is on a network share (e.g., NFS/SMB), disable WAL to reduce locking issues
+      # Accepts: true/false (default: false)
+      - NETWORK_SHARE_MODE=false
+      # Override the default port (8083) for the web server.
+      # Accepts any valid port number.
+      - CWA_PORT_OVERRIDE=8083
+      - TRUSTED_PROXY_COUNT=3
+    volumes:
+      # CW users migrating should stop their existing CW instance, make a copy of the config folder, and bind that here to carry over all of their user settings ect.
+      - /home/server/media-stack/calibre-web-automated/config:/config 
+      # This is an ingest dir, NOT a library one. Anything added here will be automatically added to your library according to the settings you have configured in CWA Settings page. All files placed here are REMOVED AFTER PROCESSING
+      - /backup-tank/Books/Ingest:/cwa-book-ingest
+      # If you don't have an existing library, CWA will automatically create one at the bind provided here
+      - /backup-tank/Books/Library:/calibre-library
+      # If you use calibre plugins, you can bind your plugins folder here to have CWA attempt to add them to its workflow (WIP)
+      # If you are starting with a fresh install, you also need to copy plugins\..\customize.py.json to the corresponding docker location (the config path above + .config/calibre/customize.py.json)
+      # - /home/server/media-stack/calibre-web-automated/plugins:/config/.config/calibre/plugins
+    networks:
+      - media-network
+    ports:
+      - 8083:8083
+    restart: unless-stopped
+
+###########################################################################
+###########################################################################
+##
+##  Shelfmark
+##  Function: Manages an online book library
+##
+###########################################################################
+###########################################################################
+  shelfmark:
+    image: ghcr.io/calibrain/shelfmark:latest
+    container_name: shelfmark
+    environment:
+      FLASK_PORT: 8084
+      LOG_LEVEL: info
+      BOOK_LANGUAGE: en
+      USE_BOOK_TITLE: "true"
+      TZ: Pacific/Auckland
+      APP_ENV: prod
+      UID: 1000
+      GID: 100
+      CWA_DB_PATH: /auth/app.db  # Comment out to disable authentication
+      # Queue management settings
+      MAX_CONCURRENT_DOWNLOADS: 3
+      DOWNLOAD_PROGRESS_UPDATE_INTERVAL: 5
+    restart: unless-stopped
+    volumes:
+      - /backup-tank/Books/Ingest:/books
+      - /home/server/media-stack/shelfmark:/config
+    network_mode: "service:gluetun"
+###########################################################################
+###########################################################################
+##
+##  Kavita
+##  Function: Book/Comic/Manga server with mobile app sync
+##
+###########################################################################
+###########################################################################
+  kavita:
+    image: jvmilazz0/kavita:latest
+    container_name: kavita
+    environment:
+      - TZ=Pacific/Auckland
+    volumes:
+      - /home/server/media-stack/kavita/config:/kavita/config
+      - /backup-tank/Books/Library:/books:ro
+    networks:
+      - media-network
+    ports:
+      - 5001:5000
+    restart: unless-stopped

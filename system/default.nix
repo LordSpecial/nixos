@@ -6,7 +6,13 @@ let
     ./secrets/git-credentials.nix
     ./secrets/ssh-keys.nix
   ];
+
+  # Base server configuration
+  server = [
+    ./server
+  ];
 in
 {
   inherit laptop;
+  inherit server;
 }

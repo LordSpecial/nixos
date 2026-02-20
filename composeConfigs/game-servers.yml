@@ -1,0 +1,25 @@
+version: '3'
+networks:
+  games-network:
+    external: true
+    name: games-network
+services:
+  crafty:
+    container_name: crafty
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    restart: always
+    environment:
+        - TZ=Etc/UTC
+    networks:
+        - games-network
+    ports:
+        - "7000:8000" # HTTP
+        - "7443:8443" # HTTPS
+        - "7100:8100" # BlueMap
+        - "25500-25600:25500-25600" # MC SERV PORT RANGE
+    volumes:
+        - /backup-tank/MinecraftServerBackups:/crafty/backups
+        - /home/server/minecraft/logs:/crafty/logs
+        - /home/server/minecraft/servers:/crafty/servers
+        - /home/server/minecraft/config:/crafty/app/config
+        - /home/server/minecraft/import:/crafty/import

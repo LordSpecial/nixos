@@ -1,0 +1,110 @@
+version: "3"
+
+networks:
+  home-automation-network:
+    name: home-automation-network
+    external: true
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /home/server/home-automation/hass:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "8123:8123"
+    networks:
+      - home-automation-network
+
+  frigate:
+    container_name: frigate
+#    privileged: true # this may not be necessary for all setups
+    restart: unless-stopped
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "256mb" # update for your cameras based on calculation above
+#    devices:
+#      - /dev/bus/usb:/dev/bus/usb  # Passes the USB Coral, needs to be modified for other versions
+#      - /dev/apex_0:/dev/apex_0    # Passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
+#      - /dev/dri/renderD128:/dev/dri/renderD128 # For intel hwaccel, needs to be updated for your hardware
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/server/home-automation/frigate:/config
+      - /backup-tank/SecurityFootage:/media/frigate
+      - type: tmpfs # Optional: 0.5GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 500000000
+    ports:
+      - "5000:5000"
+      - "8554:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+    environment:
+      FRIGATE_RTSP_PASSWORD: "password"
+    networks:
+      - home-automation-network
+
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - /home/server/home-automation/mosquitto:/etc/mosquitto
+      - /home/server/home-automation/mosquitto/config:/mosquitto/config/
+      - /home/server/home-automation/mosquitto/data:/mosquitto/data
+      - /home/server/home-automation/mosquitto/log:/mosquitto/log
+    networks:
+      - home-automation-network
+
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - /home/server/home-automation/esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
+
+  wikijs-db:
+    image: postgres:15-alpine
+    container_name: wikijs-db
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: Specialwikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    restart: unless-stopped
+    networks:
+      - home-automation-network
+    volumes:
+      - /home/server/home-automation/wikijs-db:/var/lib/postgresql/data
+
+  wikijs:
+    image: ghcr.io/requarks/wiki:2
+    container_name: wikijs
+    depends_on:
+      - wikijs-db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: wikijs-db
+      DB_PORT: 5432
+      DB_NAME: wiki
+      DB_USER: wikijs
+      DB_PASS: Specialwikijsrocks
+    volumes:
+      - /home/server/home-automation/wikijs/content:/wiki/data/content
+    restart: unless-stopped
+    networks:
+      - home-automation-network
+    ports:
+      - "3410:3000"

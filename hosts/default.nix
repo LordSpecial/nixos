@@ -9,7 +9,7 @@
       inherit (inputs.nixpkgs.lib) nixosSystem;
 
       # get the basic config to build on top of
-      inherit (import "${self}/system") laptop;
+      inherit (import "${self}/system") laptop server;
 
       # get these into the module system
       specialArgs = {
@@ -53,6 +53,13 @@
               useUserPackages = true;
             };
           }
+        ];
+      };
+
+      specialserver = nixosSystem {
+        inherit specialArgs;
+        modules = server ++ [
+          ./specialserver
         ];
       };
     };
