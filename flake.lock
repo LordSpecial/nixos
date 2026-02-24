@@ -25,15 +25,15 @@
     },
     "aq-agent-config": {
       "locked": {
-        "lastModified": 1770358620,
-        "narHash": "sha256-iGE/sZaU+XZlFS4qfVvB/9TctrAg4M0cKauzBs4N4s4=",
-        "owner": "LordSpecial",
+        "lastModified": 1771909603,
+        "narHash": "sha256-4axg+NSbDfRKjk3yna23YkgCXD+W9kTkm5l2zD5lnWM=",
+        "owner": "AquilaSpace",
         "repo": "aq-agent-config",
-        "rev": "fc233dcad89df79854e130518103d26d3f1286f2",
+        "rev": "cdd0f214e8d0a7a49e9b43bff107d59943f73e8c",
         "type": "github"
       },
       "original": {
-        "owner": "LordSpecial",
+        "owner": "AquilaSpace",
         "repo": "aq-agent-config",
         "type": "github"
       }

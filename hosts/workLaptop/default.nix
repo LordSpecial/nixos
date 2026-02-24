@@ -56,6 +56,35 @@ in
 
   age.identityPaths = [ "/home/simon/.config/agenix/ageWorkLaptop.key" ];
 
+  nix.extraOptions = ''
+    !include /run/nix/access-tokens.conf
+  '';
+
+  system.activationScripts.nixAccessTokens = {
+    deps = [ "gitCredentials" ];
+    text = ''
+      credentials_file="/home/simon/.config/git/credentials-aquilaspace"
+      agenix_credentials_file="/run/agenix/git-credentials-aquilaspace"
+      tokens_file="/run/nix/access-tokens.conf"
+
+      ${pkgs.coreutils}/bin/install -d -m 0700 /run/nix
+
+      token=""
+      if [ -f "$credentials_file" ]; then
+        token="$(${pkgs.gnused}/bin/sed -nE 's#^https?://[^:]*:([^@]+)@github.com.*#\1#p' "$credentials_file" | ${pkgs.coreutils}/bin/head -n 1)"
+      elif [ -f "$agenix_credentials_file" ]; then
+        token="$(${pkgs.gnused}/bin/sed -nE 's#^https?://[^:]*:([^@]+)@github.com.*#\1#p' "$agenix_credentials_file" | ${pkgs.coreutils}/bin/head -n 1)"
+      fi
+
+      if [ -n "$token" ]; then
+        ${pkgs.coreutils}/bin/install -m 0400 -o simon -g users /dev/null "$tokens_file"
+        printf "access-tokens = github.com=%s\n" "$token" > "$tokens_file"
+      else
+        ${pkgs.coreutils}/bin/rm -f "$tokens_file"
+      fi
+    '';
+  };
+
   # Configure Graphics - specific to this hybrid setup
   system.hybrid.enable = true;
 

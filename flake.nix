@@ -56,11 +56,12 @@
     };
 
     aq-agent-config = {
-      url = "github:LordSpecial/aq-agent-config";
+      url = "github:AquilaSpace/aq-agent-config";
     };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -69,14 +70,16 @@
         ./lib
       ];
 
-      perSystem = { pkgs, ... }: {
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            git
-            nixos-rebuild
-          ];
-          name = "nixos-config";
+      perSystem =
+        { pkgs, ... }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              git
+              nixos-rebuild
+            ];
+            name = "nixos-config";
+          };
         };
-      };
     };
 }
