@@ -94,7 +94,7 @@
     enable = true;
     settings = {
       main = {
-        font = "JetBrains Mono:size=12, JetBrainsMono Nerd Font:size=12, Symbols Nerd Font:size=12";
+        font = "JetBrainsMono Nerd Font Mono:size=12, Symbols Nerd Font Mono:size=12";
         shell = "${pkgs.fish}/bin/fish";
         pad = "20x20";
       };
