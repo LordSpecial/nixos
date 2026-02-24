@@ -116,7 +116,7 @@
     inputs.claude-code.overlays.default
     inputs.codex-cli.overlays.default
     (final: prev: {
-      rpi-imager = inputs.nixpkgs-25_11.legacyPackages.${prev.system}.rpi-imager;
+      rpi-imager = inputs.nixpkgs-25_11.legacyPackages.${prev.stdenv.hostPlatform.system}.rpi-imager;
     })
   ];
 
@@ -159,7 +159,6 @@
 
   # Fonts
   fonts.packages = with pkgs; [
-    jetbrains-mono
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
   ];
