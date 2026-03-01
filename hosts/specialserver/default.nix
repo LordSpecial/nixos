@@ -21,5 +21,7 @@ in
     loader.efi.canTouchEfiVariables = true;
   };
 
+  environment.sessionVariables.COLORTERM = "truecolor";
+
   system.stateVersion = "25.05";
 }
