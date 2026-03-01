@@ -25,11 +25,11 @@
     },
     "aq-agent-config": {
       "locked": {
-        "lastModified": 1771909603,
-        "narHash": "sha256-4axg+NSbDfRKjk3yna23YkgCXD+W9kTkm5l2zD5lnWM=",
+        "lastModified": 1771998712,
+        "narHash": "sha256-5d7z+ZeOA2fvMQ+fdjobVg+d9UXAq2+D5PUg8mV9GWE=",
         "owner": "AquilaSpace",
         "repo": "aq-agent-config",
-        "rev": "cdd0f214e8d0a7a49e9b43bff107d59943f73e8c",
+        "rev": "3236c25833557f5aca38e47814f2c9900a3a8ecf",
         "type": "github"
       },
       "original": {
