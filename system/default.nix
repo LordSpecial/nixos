@@ -4,7 +4,7 @@ let
     ./core
     ./secrets/agenix.nix
     ./secrets/git-credentials.nix
-    ./secrets/ssh-keys.nix
+    # Note: SSH keys are imported per-host since they differ
   ];
 in
 {

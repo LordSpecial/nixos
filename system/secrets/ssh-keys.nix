@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ pkgs, ... }:
 {
   age.secrets.workLaptopSshKey = {
     file = ../../secrets/work-laptop-ssh-key.age;

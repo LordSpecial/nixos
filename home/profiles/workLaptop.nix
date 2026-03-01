@@ -49,6 +49,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    includes = [ "~/.ssh/config.local" ];
     matchBlocks."*" = {
       identityFile = [ "~/.ssh/work_laptop_id_ed25519" ];
       identitiesOnly = true;

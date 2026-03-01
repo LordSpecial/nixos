@@ -15,6 +15,9 @@ in
     ../../system/hardware/intel-gpu.nix
     ../../system/hardware/nvidia-gpu.nix
     ../../system/hardware/hybrid-nv-in-gpu.nix
+
+    # SSH keys for work laptop
+    ../../system/secrets/ssh-keys.nix
   ];
 
   # Bootloader - specific to this machine
@@ -54,7 +57,7 @@ in
   networking.firewall.checkReversePath = "loose";
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
-  age.identityPaths = [ "/home/simon/.config/agenix/ageWorkLaptop.key" ];
+  age.identityPaths = [ "/home/simon/.config/agenix/shared.key" ];
 
   nix.extraOptions = ''
     !include /run/nix/access-tokens.conf
