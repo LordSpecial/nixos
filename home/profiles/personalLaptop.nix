@@ -9,31 +9,31 @@
     ../default.nix
     # Hyprland Config
     ../../system/programs/hyprland
-    ../../system/programs/vscodium.nix
+    ../../modules/home/hyprland
+    ../../modules/home/dev-tools.nix
     ../../modules/home/dev-repos.nix
+    ../../modules/home/noctalia.nix
+    ../../modules/home/scripts
+    ../../system/programs/vscodium.nix
+    ../../system/programs/terminal.nix
   ];
 
   home.packages = with pkgs; [
     foot
+    spotify
 
-    # Hyprland ecosystem packages
-    fuzzel # App launcher
-    dunst # Notifications
-    swww # Wallpaper manager
-    nwg-displays
-    quickshell
-
-    # Graphics Tools (commented out for personal laptop)
-    #nvtopPackages.full
+    # Graphics Tools (Intel only for personal laptop)
+    # nvtopPackages.full  # Uncomment if you want GPU monitoring
   ];
 
   # Git configuration with credential manager
   programs.git = {
     enable = true;
-    userName = "Simon";
-    userEmail = "simon@aquila.earth";
-
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Simon";
+        email = "simon@aquila.earth";
+      };
       credential = {
         "https://github.com/LordSpecial" = {
           helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
@@ -45,6 +45,26 @@
     };
   };
 
+  # SSH default identity
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    includes = [ "~/.ssh/config.local" ];
+    matchBlocks."kmsam" = {
+      hostname = "kmsam.uk";
+      user = "simon";
+    };
+    matchBlocks."oracle-vps" = {
+      hostname = "kmsam.uk";
+      user = "ubuntu";
+      port = 2200;
+    };
+    matchBlocks."*" = {
+      identityFile = [ "~/.ssh/personal_laptop_id_rsa" ];
+      identitiesOnly = true;
+    };
+  };
+
   home.pointerCursor = {
     name = "Qogir";
     package = pkgs.qogir-icon-theme;
@@ -53,17 +73,21 @@
     x11.enable = false;
   };
 
-  wayland.windowManager.hyprland.settings.monitor = "eDP-1,preferred,auto,1.0";
-  wayland.windowManager.hyprland.settings.bindl = lib.mkAfter [
-    ",XF86MonBrightnessUp, exec, brightnessctl -d intel_backlight set +5%"
-    ",XF86MonBrightnessDown, exec, brightnessctl -d intel_backlight set 5%-"
-  ];
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
 
   home.sessionVariables = {
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    XDG_SESSION_TYPE = "wayland";
-
     # Firefox/Zen browser Wayland fixes
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_WEBRENDER = "1";
@@ -71,10 +95,9 @@
 
     # General Wayland app support
     NIXOS_OZONE_WL = "1";
-    QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
+    QT_QPA_PLATFORM = "wayland";
 
     LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
-
   };
 }
