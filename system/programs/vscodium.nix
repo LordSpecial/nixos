@@ -4,6 +4,18 @@
   ...
 }:
 let
+  open-remote-ssh = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "open-remote-ssh";
+      publisher = "jeanp413";
+      version = "0.0.49";
+    };
+    vsix = builtins.fetchurl {
+      url = "https://open-vsx.org/api/jeanp413/open-remote-ssh/0.0.49/file/jeanp413.open-remote-ssh-0.0.49.vsix";
+      sha256 = "sha256-QfJnAAx+kO2iJ1EzWoO5HLogJKg3RiC3hg1/u2Jm6t4=";
+    };
+  };
+
   vscodiumWithLibstdcxx = pkgs.vscodium.overrideAttrs (old: {
     nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
     # Cortex-Debug ships native modules; libstdc++ must be visible to the extension host.
@@ -39,20 +51,14 @@ in
           tomoki1207.pdf
           mechatroner.rainbow-csv
 
-          # Remote development
-          ms-vscode-remote.remote-ssh
-          ms-vscode.remote-explorer
-
           # Git
           eamodio.gitlens
-
-          # GitHub Copilot (if you have access)
-          github.copilot
-          github.copilot-chat
 
           # MCU/Embedded development
           marus25.cortex-debug
 
+          # Remote development
+          open-remote-ssh
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {

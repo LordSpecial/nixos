@@ -14,6 +14,9 @@
     "flakes"
   ];
 
+  # Allow non-root users to use nix commands without extra flags
+  nix.settings.trusted-users = [ "root" "simon" ];
+
   # Networking
   networking.networkmanager.enable = true;
 
@@ -96,6 +99,9 @@
     # Specific SD card reader seen as /dev/sda (Generic STORAGE DEVICE).
     SUBSYSTEM=="block", ENV{ID_SERIAL}=="Generic_STORAGE_DEVICE-0:0", ENV{ID_TYPE}=="disk", GROUP="wheel", MODE="0660"
   '';
+
+  # Point all processes at the GCR SSH agent socket
+  environment.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/gcr/ssh";
 
   # User
   users.users.simon = {
