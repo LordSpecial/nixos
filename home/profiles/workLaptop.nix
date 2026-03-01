@@ -16,6 +16,7 @@
     ../../modules/home/scripts
     ../../system/programs/vscodium.nix
     ../../system/programs/terminal.nix
+    ../../system/programs/foot.nix
   ];
 
   home.packages = with pkgs; [

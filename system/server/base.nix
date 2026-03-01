@@ -42,6 +42,9 @@
   # Fish shell
   programs.fish.enable = true;
 
+  # Run dynamically linked non-Nix binaries
+  programs.nix-ld.enable = true;
+
   # User identity parity for migration
   users.users.simon = {
     isNormalUser = true;

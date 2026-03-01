@@ -60,6 +60,18 @@
         inherit specialArgs;
         modules = server ++ [
           ./specialserver
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.simon.imports = [ ../home/profiles/specialserver.nix ];
+              extraSpecialArgs = specialArgs // {
+                host = "specialserver";
+              };
+              backupFileExtension = ".hm-backup";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+            };
+          }
         ];
       };
     };
