@@ -39,12 +39,16 @@
     graphics.enable = true;
   };
 
+  # Fish shell
+  programs.fish.enable = true;
+
   # User identity parity for migration
   users.users.simon = {
     isNormalUser = true;
     uid = 1000;
     group = "users";
     description = "Simon A";
+    shell = pkgs.fish;
     extraGroups = [
       "wheel"
       "docker"
@@ -54,11 +58,16 @@
     ];
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs; [
     git
     gnumake
     tmux
     vim
     wget
+    # AI Development Tools (latest versions via community flakes)
+    claude-code # Latest Claude Code
+    codex # Latest Codex CLI
   ];
 }

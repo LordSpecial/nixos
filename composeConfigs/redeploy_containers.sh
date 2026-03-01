@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Define project names for each compose file
 HOME_AUTOMATION_PROJECT="homeautomation"
 MEDIA_STACK_PROJECT="mediastack"
