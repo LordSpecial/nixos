@@ -79,6 +79,7 @@
     Defaults timestamp_timeout=240
     Defaults timestamp_type=global
   '';
+  services.udev.packages = [ pkgs.libsigrok ];
   services.udev.extraRules = ''
     # ST-Link USB adapters (allow access for active user)
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748", TAG+="uaccess"
@@ -88,6 +89,9 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3753", TAG+="uaccess"
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", TAG+="uaccess"
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3757", TAG+="uaccess"
+
+    # DreamSourceLab USB-based DSL Instrument v2 (2a0e:0034)
+    SUBSYSTEM=="usb", ATTR{idVendor}=="2a0e", ATTR{idProduct}=="0034", TAG+="uaccess", MODE="0660", GROUP="dialout"
 
     # Fallback for non-seat sessions (grant dialout group access)
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3754", MODE="0660", GROUP="dialout"
@@ -132,6 +136,8 @@
     wget
     git
     gcc
+    usbutils
+    psmisc
     slack
     vscodium
     discord
