@@ -13,6 +13,10 @@
     source = inputs.aq-agent-config.outPath;
   };
 
+  home.file.".config/nix/nix.conf".text = ''
+    experimental-features = nix-command flakes
+  '';
+
   home = {
     username = lib.mkDefault "simon";
     homeDirectory = lib.mkDefault "/home/simon";
