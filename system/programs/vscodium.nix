@@ -3,10 +3,34 @@
   lib,
   ...
 }:
+let
+  open-remote-ssh = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "open-remote-ssh";
+      publisher = "jeanp413";
+      version = "0.0.49";
+    };
+    vsix = builtins.fetchurl {
+      url = "https://open-vsx.org/api/jeanp413/open-remote-ssh/0.0.49/file/jeanp413.open-remote-ssh-0.0.49.vsix";
+      sha256 = "sha256-QfJnAAx+kO2iJ1EzWoO5HLogJKg3RiC3hg1/u2Jm6t4=";
+    };
+  };
+
+  vscodiumWithLibstdcxx = pkgs.vscodium.overrideAttrs (old: {
+    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
+    # Cortex-Debug ships native modules; libstdc++ must be visible to the extension host.
+    postFixup =
+      (old.postFixup or "")
+      + ''
+        wrapProgram $out/bin/codium \
+          --prefix LD_LIBRARY_PATH : ${pkgs.gcc.cc.lib}/lib
+      '';
+  });
+in
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = vscodiumWithLibstdcxx;
 
     profiles.default = {
       extensions =
@@ -27,17 +51,14 @@
           tomoki1207.pdf
           mechatroner.rainbow-csv
 
-          # Remote development
-          ms-vscode-remote.remote-ssh
-          ms-vscode.remote-explorer
-
-          # GitHub Copilot (if you have access)
-          github.copilot
-          github.copilot-chat
+          # Git
+          eamodio.gitlens
 
           # MCU/Embedded development
           marus25.cortex-debug
 
+          # Remote development
+          open-remote-ssh
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
@@ -134,6 +155,15 @@
 
         # Terminal
         "terminal.integrated.fontLigatures.enabled" = true;
+        "terminal.integrated.defaultProfile.linux" = "fish";
+        "terminal.integrated.profiles.linux" = {
+          fish = {
+            path = "${pkgs.fish}/bin/fish";
+            args = [
+              "-l"
+            ];
+          };
+        };
 
         # Files
         "files.autoSave" = "onFocusChange";
@@ -162,6 +192,13 @@
         # C/C++
         "C_Cpp.intelliSenseEngine" = "disabled"; # You had this disabled
         "C_Cpp.markdownInComments" = "enabled";
+        "C_Cpp.clang_format_style" = "file";
+        "clangd.path" = "${pkgs.llvmPackages_latest.clang-tools}/bin/clangd";
+        "clangd.arguments" = [
+          "--clang-tidy"
+        ];
+        "clang-format.style" = "file";
+        "cortex-debug.gdbPath" = "${pkgs.gcc-arm-embedded}/bin/arm-none-eabi-gdb";
 
         # QML
         "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
@@ -204,6 +241,18 @@
         # Formatting
         "[nix]" = {
           "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        };
+        "[c]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[cpp]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[objc]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
+        };
+        "[objcpp]" = {
+          "editor.defaultFormatter" = "llvm-vs-code-extensions.vscode-clangd";
         };
         "[python]" = {
           "editor.defaultFormatter" = "ms-python.black-formatter";

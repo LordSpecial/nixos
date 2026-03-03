@@ -32,5 +32,8 @@ in
       open = cfg.openSource;
       nvidiaSettings = true;
     };
+
+    # Explicitly load NVIDIA kernel modules for display output
+    boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
   };
 }

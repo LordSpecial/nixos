@@ -26,7 +26,9 @@
           {
             home-manager = {
               users.simon.imports = [ ../home/profiles/workLaptop.nix ];
-              extraSpecialArgs = specialArgs;
+              extraSpecialArgs = specialArgs // {
+                host = "workLaptop";
+              };
               backupFileExtension = ".hm-backup";
               useGlobalPkgs = true;
               useUserPackages = true;
@@ -43,7 +45,9 @@
           {
             home-manager = {
               users.simon.imports = [ ../home/profiles/personalLaptop.nix ];
-              extraSpecialArgs = specialArgs;
+              extraSpecialArgs = specialArgs // {
+                host = "personalLaptop";
+              };
               backupFileExtension = ".hm-backup";
               useGlobalPkgs = true;
               useUserPackages = true;

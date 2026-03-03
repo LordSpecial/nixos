@@ -4,6 +4,7 @@
   inputs = {
     # Core system - always nixos-unstable for latest packages
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs-25_11.url = "github:nixos/nixpkgs?ref=nixos-25.11";
 
     # Flake framework
     flake-parts = {
@@ -19,6 +20,18 @@
 
     # Hyprland - pinned to avoid breaking changes
     hyprland.url = "github:hyprwm/Hyprland";
+
+    # Noctalia shell
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Wallpapers (flake = false)
+    wallpapers = {
+      url = "github:LordSpecial/wallpapers";
+      flake = false;
+    };
 
     # Zen browser
     zen-browser = {
@@ -36,9 +49,19 @@
       url = "github:sadjow/codex-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    aq-agent-config = {
+      url = "github:AquilaSpace/aq-agent-config";
+    };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -47,14 +70,16 @@
         ./lib
       ];
 
-      perSystem = { pkgs, ... }: {
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            git
-            nixos-rebuild
-          ];
-          name = "nixos-config";
+      perSystem =
+        { pkgs, ... }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              git
+              nixos-rebuild
+            ];
+            name = "nixos-config";
+          };
         };
-      };
     };
 }

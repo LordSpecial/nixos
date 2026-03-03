@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -8,21 +9,18 @@
     ../default.nix
     # Hyprland Config
     ../../system/programs/hyprland
-    ../../modules/quickshell
+    ../../modules/home/hyprland
+    ../../modules/home/dev-tools.nix
+    ../../modules/home/dev-repos.nix
+    ../../modules/home/noctalia.nix
+    ../../modules/home/scripts
     ../../system/programs/vscodium.nix
     ../../system/programs/terminal.nix
   ];
 
   home.packages = with pkgs; [
-    kitty
-    git-credential-manager
-
-    # Hyprland ecosystem packages
-    fuzzel # App launcher
-    dunst # Notifications
-    swww # Wallpaper manager
-    nwg-displays
-    quickshell
+    foot
+    spotify
 
     # Graphics Tools
     nvtopPackages.full
@@ -31,12 +29,30 @@
   # Git configuration with credential manager
   programs.git = {
     enable = true;
-    userName = "Simon";
-    userEmail = "simon@aquila.earth";
+    settings = {
+      user = {
+        name = "Simon";
+        email = "simon@aquila.earth";
+      };
+      credential = {
+        "https://github.com/LordSpecial" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
+        };
+        "https://github.com/AquilaSpace" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-aquilaspace";
+        };
+      };
+    };
+  };
 
-    extraConfig = {
-      credential.helper = "manager";
-      credential.credentialStore = "secretservice";
+  # SSH default identity
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    includes = [ "~/.ssh/config.local" ];
+    matchBlocks."*" = {
+      identityFile = [ "~/.ssh/work_laptop_id_ed25519" ];
+      identitiesOnly = true;
     };
   };
 
@@ -48,17 +64,21 @@
     x11.enable = false;
   };
 
-  wayland.windowManager.hyprland.settings.monitor = "eDP-1,2560x1600@240.0,0x0,1.0";
-  wayland.windowManager.hyprland.settings.bindl = lib.mkAfter [
-    ",XF86MonBrightnessUp, exec, brightnessctl -d intel_backlight set +5%"
-    ",XF86MonBrightnessDown, exec, brightnessctl -d intel_backlight set 5%-"
-  ];
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
 
   home.sessionVariables = {
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    XDG_SESSION_TYPE = "wayland";
-
     # Firefox/Zen browser Wayland fixes
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_WEBRENDER = "1";
@@ -66,8 +86,8 @@
 
     # General Wayland app support
     NIXOS_OZONE_WL = "1";
-    QT_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
+    QT_QPA_PLATFORM = "wayland";
 
     LIBVA_DRIVER_NAME = "iHD"; # For Intel hardware acceleration
 
