@@ -5,5 +5,8 @@
     ./smb.nix
     ./ssh.nix
     ./firewall.nix
+    ./monitoring.nix
+
+    ./secrets.nix
   ];
 }

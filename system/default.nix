@@ -10,6 +10,7 @@ let
   # Base server configuration
   server = [
     ./server
+    ./secrets/agenix.nix
   ];
 in
 {
