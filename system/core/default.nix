@@ -44,6 +44,7 @@
   # Hyprland
   programs.hyprland.enable = true;
   programs.hyprland.package = inputs.hyprland.packages."${pkgs.stdenv.hostPlatform.system}".hyprland;
+  programs.nix-ld.enable = true;
 
   # X11 keymap
   services.xserver.xkb = {
