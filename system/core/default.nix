@@ -144,6 +144,7 @@
     discord
     gnumake
     firefox
+    google-chrome
     gitkraken
     xdg-utils
     polkit_gnome

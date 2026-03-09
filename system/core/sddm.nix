@@ -89,8 +89,12 @@ in {
   systemd.services.display-manager.environment = let
     keyboardLayout = config.services.xserver.xkb.layout or "us";
     keyboardVariant = config.services.xserver.xkb.variant or "";
-  in ({XKB_DEFAULT_LAYOUT = keyboardLayout;}
-    // lib.optionalAttrs (keyboardVariant != "") {XKB_DEFAULT_VARIANT = keyboardVariant;});
+  in ({
+    XKB_DEFAULT_LAYOUT = keyboardLayout;
+    # Force software cursor — hardware cursor plane is often unavailable at the
+    # greeter stage, leaving the mouse invisible on Wayland SDDM.
+    KWIN_FORCE_SW_CURSOR = "1";
+  } // lib.optionalAttrs (keyboardVariant != "") {XKB_DEFAULT_VARIANT = keyboardVariant;});
 
   environment.systemPackages = [sddm-astronaut];
 }
