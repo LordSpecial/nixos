@@ -6,6 +6,7 @@
     ./ssh.nix
     ./firewall.nix
     ./monitoring.nix
+    ./wireguard.nix
 
     ./secrets.nix
   ];
