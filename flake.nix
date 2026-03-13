@@ -56,7 +56,7 @@
     };
 
     aq-agent-config = {
-      url = "github:LordSpecial/aq-agent-config";
+      url = "github:AquilaSpace/aq-agent-config";
     };
   };
 
