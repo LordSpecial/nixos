@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+You MUST read `AGENTS.md` before making any changes.
+
 ## NixOS Flake Configuration
 
 This repository contains a NixOS configuration using flakes with flake-parts framework, organized modularly for managing multiple hosts (workLaptop and personalLaptop).
