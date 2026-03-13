@@ -11,6 +11,7 @@ let
   server = [
     ./server
     ./secrets/agenix.nix
+    ./secrets/git-credentials.nix
   ];
 in
 {

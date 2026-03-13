@@ -6,8 +6,8 @@ in
   # Laptop secrets
   "secrets/aquila-office.nmconnection.age".publicKeys = [ workLaptop ];
   "secrets/Potentially-Safe-Network.nmconnection.age".publicKeys = [ workLaptop ];
-  "secrets/git-credentials-lordspecial.age".publicKeys = [ workLaptop ];
-  "secrets/git-credentials-aquilaspace.age".publicKeys = [ workLaptop ];
+  "secrets/git-credentials-lordspecial.age".publicKeys = [ workLaptop server ];
+  "secrets/git-credentials-aquilaspace.age".publicKeys = [ workLaptop server ];
   "secrets/work-laptop-ssh-key.age".publicKeys = [ workLaptop ];
 
   # Server secrets

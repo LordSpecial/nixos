@@ -18,5 +18,16 @@
         email = "bcspace8@gmail.com";
       };
     };
+
+    extraConfig = {
+      credential = {
+        "https://github.com/LordSpecial" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-lordspecial";
+        };
+        "https://github.com/AquilaSpace" = {
+          helper = "store --file=${config.home.homeDirectory}/.config/git/credentials-aquilaspace";
+        };
+      };
+    };
   };
 }
