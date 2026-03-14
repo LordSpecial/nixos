@@ -1,7 +1,7 @@
 -include .env
 FLAKE = $(HOME)/.config/nixos
 
-SERVER_HOSTS = specialserver
+SERVER_HOSTS = specialserver stagingServer
 IS_SERVER = $(filter $(HOST),$(SERVER_HOSTS))
 ROLLBACK_TIMEOUT ?= 5min
 REBOOT_TIMEOUT ?= 5min
@@ -21,7 +21,7 @@ switch:
 _server-switch: build
 	@echo "Checking for kernel changes..."
 	@set -o pipefail; \
-	diff_out=$$(nix store diff-closures /run/current-system ./result 2>&1) || { \
+	diff_out=$$(nix --extra-experimental-features nix-command store diff-closures /run/current-system ./result 2>&1) || { \
 		echo ""; \
 		echo "*** diff-closures failed — refusing to switch (fail closed) ***"; \
 		echo "$$diff_out"; \
@@ -83,7 +83,7 @@ deploy:
 
 ## Show what changed between current system and new build
 diff: build
-	nix store diff-closures /run/current-system ./result
+	nix --extra-experimental-features nix-command store diff-closures /run/current-system ./result
 
 ## Rebuild but only apply after reboot
 boot:

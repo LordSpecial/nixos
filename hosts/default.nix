@@ -74,5 +74,24 @@
           }
         ];
       };
+
+      stagingServer = nixosSystem {
+        inherit specialArgs;
+        modules = server ++ [
+          ./stagingServer
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              users.simon.imports = [ ../home/profiles/stagingServer.nix ];
+              extraSpecialArgs = specialArgs // {
+                host = "stagingServer";
+              };
+              backupFileExtension = ".hm-backup";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+            };
+          }
+        ];
+      };
     };
 }

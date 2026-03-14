@@ -4,6 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 You MUST read `AGENTS.md` before making any changes.
 
+## Host Awareness
+
+This repo manages multiple machines. Before making any host-specific assumptions (e.g. which age key to use, which network interface exists, which secrets are available), run `hostname` to confirm which machine you are operating on. Do not assume based on conversation context alone.
+
+Known hosts:
+- **workLaptop** — primary development laptop
+- **personalLaptop** — personal laptop
+- **specialserver** — production home server
+- **stagingServer** — Beelink staging/backup server
+
 ## NixOS Flake Configuration
 
 This repository contains a NixOS configuration using flakes with flake-parts framework, organized modularly for managing multiple hosts (workLaptop and personalLaptop).
