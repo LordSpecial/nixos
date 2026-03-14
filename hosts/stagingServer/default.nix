@@ -38,6 +38,22 @@ in
   services.zfs.autoScrub.enable = lib.mkForce false;
   services.zfs.autoSnapshot.enable = lib.mkForce false;
 
+  # Override server secrets — stagingServer can only decrypt git credentials
+  age.secrets = lib.mkForce {
+    git-credentials-lordspecial = {
+      file = ../../secrets/git-credentials-lordspecial.age;
+      owner = "simon";
+      group = "users";
+      mode = "0400";
+    };
+    git-credentials-aquilaspace = {
+      file = ../../secrets/git-credentials-aquilaspace.age;
+      owner = "simon";
+      group = "users";
+      mode = "0400";
+    };
+  };
+
   environment.sessionVariables.COLORTERM = "truecolor";
 
   # Nix access token for private GitHub repos (e.g. aq-agent-config)
